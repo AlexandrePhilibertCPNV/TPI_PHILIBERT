@@ -1,0 +1,33 @@
+{
+  "name": "runscape",
+  "version": "0.0.1",
+  "description": "runscape application",
+  "main": "app.js",
+  "dependencies": {
+    "router": "^1.3.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "nodemonConfig": {
+    "ignore": ["docs/*"],
+    "delay": "2500"
+  },
+  "keywords": [
+    "runscape",
+    "tracking",
+    "gpx",
+    "gps",
+    "running"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandrePhilibertCPNV/TPI_PHILIBERT.git"
+  },
+  "author": "Alexandre Philibert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlexandrePhilibertCPNV/TPI_PHILIBERT/issues"
+  },
+  "homepage": "https://github.com/AlexandrePhilibertCPNV/TPI_PHILIBERT#readme"
+}
