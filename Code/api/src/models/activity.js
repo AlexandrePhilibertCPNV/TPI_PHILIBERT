@@ -82,6 +82,7 @@ Activity.create = (params) => {
 			total_average_speed: averageSpeed,
 			fk_user: params.userId,
 			fk_activityType: params.activityTypeId,
+			fk_place: params.placeId,
 			gpx: params.gpx
 		};
 		
