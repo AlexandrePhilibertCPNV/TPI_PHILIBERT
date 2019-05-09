@@ -23,7 +23,7 @@ Country.getPlace = (countryId) => {
 			throw new Error('parameter countryId is undefined');
 		}
 		var result;
-		result = conn.query('SELECT id, name FROM tbl_place WHERE id=?', [countryId]);
+		result = conn.query('SELECT id, name FROM tbl_place WHERE fk_country=?', [countryId]);
 		conn.end();
 		return result;
 	});

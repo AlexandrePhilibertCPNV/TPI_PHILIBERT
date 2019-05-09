@@ -7,8 +7,22 @@ const uuidv4 = require('uuid/v4');
 const validator = require('validator');
 
 const dbConfig = require('../config/db');
+const Util = require('../util');
 
 var Activity = {};
+
+var returnedFields = [
+	"id",
+	"fk_activityType",
+	"fk_user",
+	"name",
+	"start_timestamp",
+	"end_timestamp",
+	"total_distance_km",
+	"total_average_speed",
+	"removed",
+	"fk_place",
+]
 
 var allowedModifications = [
 	'name',
@@ -34,9 +48,12 @@ function _computeTotalDistance(waypoints) {
 	return gpsDistance(points);
 }
 
-function _parseGpx(gpx) {
+function _parseGpx(path) {
 	return new Promise((resolve, reject) => {
-		gpxParse.parseGpx(gpx, (err, data) => {
+		if(typeof path === 'undefined') {
+			resolve();
+		}
+		gpxParse.parseGpxFromFile(path, (err, data) => {
 			if(err) {
 				reject(err);
 			}
@@ -45,13 +62,33 @@ function _parseGpx(gpx) {
 	});
 }
 
+function _computeGpxFields(gpx) {
+	var waypoints = gpx.tracks[0].segments[0];
+	var startTimestamp = new Date(waypoints[0].time);
+	var endTimestamp = new Date(waypoints[waypoints.length-1].time);
+	
+	//synchronous operation (_computeTotalDistance) is blocking thread ?
+	var totalDistanceKm =  _computeTotalDistance(waypoints);
+	var startTimeSeconds = startTimestamp.getTime() / 1000;
+	var endTimeSeconds = endTimestamp.getTime() / 1000;
+	var deltaTimeSeconds = Math.abs(startTimeSeconds - endTimeSeconds);
+	var averageSpeed = totalDistanceKm / (deltaTimeSeconds / 60 / 60);
+
+	return {
+		start_timestamp: startTimestamp.toISOString(),
+		end_timestamp: endTimestamp.toISOString(),
+		total_distance_km: totalDistanceKm,
+		total_average_speed: averageSpeed
+	};
+}
+
 Activity.get = (id) => {
 	return mysql.createConnection(dbConfig).then(conn => {
 		var result;
 		if (typeof id !== 'undefined') {
-			result = conn.query('SELECT * FROM tbl_activity WHERE id=?', [id]);
+			result = conn.query('SELECT ?? FROM tbl_activity WHERE id=?', [returnedFields ,id]);
 		} else {
-			result = conn.query('SELECT * FROM tbl_activity LIMIT 20');
+			result = conn.query('SELECT ?? FROM tbl_activity', [returnedFields]);
 		}
 		conn.end();
 		return result;
@@ -60,45 +97,38 @@ Activity.get = (id) => {
 
 Activity.create = (params) => {
 	params.id = uuidv4();
-	var waypoints;
-	return _parseGpx(params.gpx).then(gpx => {
-		waypoints = gpx.tracks[0].segments[0];
-		var startTimestamp = new Date(waypoints[0].time);
-		var endTimestamp = new Date(waypoints[waypoints.length-1].time);
-		
-		//synchronous operation (_computeTotalDistance) is blocking thread
-		var totalDistanceKm =  _computeTotalDistance(waypoints);
-		var startTimeSeconds = startTimestamp.getTime() / 1000;
-		var endTimeSeconds = endTimestamp.getTime() / 1000;
-		var deltaTimeSeconds = Math.abs(startTimeSeconds - endTimeSeconds);
-		var averageSpeed = totalDistanceKm / (deltaTimeSeconds / 60 / 60);
+	var promise = Promise.resolve();
+	if(params.gpx) {
+		promise = _parseGpx(params.gpx);
+	}
 
-		let values = {
-			id: params.id,
-			name: params.name,
-			start_timestamp: startTimestamp,
-			end_timestamp: endTimestamp,
-			total_distance_km: totalDistanceKm,
-			total_average_speed: averageSpeed,
-			fk_user: params.userId,
-			fk_activityType: params.activityTypeId,
-			fk_place: params.placeId,
-			gpx: params.gpx
-		};
-		
+	var gpxWaypoints;
+	return promise.then(gpx => {
+		var values = {};
+		if(!!gpx) {
+			gpxWaypoints = gpx.waypoints;
+			var gpxFields = _computeGpxFields(gpx);
+			Object.assign(values, gpxFields);
+		}
+		// Override values found in GPX with values provided by the user
+		Object.assign(values, params);
+		Util.renameProperties(values, {placeId: 'fk_place', activityTypeId: 'fk_activityType', userId: 'fk_user'})
+
 		// Check timestamp format
-		if(params.start_timestamp && !validator.isRFC3339(params.start_timestamp)) {
+		if(values.start_timestamp && !validator.isRFC3339(values.start_timestamp)) {
 			throw new Error('start_timestamp format is invalid');
 		}
-		if(params.start_timestamp && !validator.isRFC3339(params.end_timestamp)) {
+		if(values.start_timestamp && !validator.isRFC3339(values.end_timestamp)) {
 			throw new Error('end_timestamp format is invalid');
 		}
 		
 		return mysql.createConnection(dbConfig).then(conn => {
 			return conn.query('INSERT INTO tbl_activity SET ?', [values]);
 		});
-	}).then(_result => {
-		Activity.addPositions(params.id, waypoints);
+	}).then(() => {
+		if(typeof gpxWaypoints !== 'undefined') {
+			Activity.addPositions(params.id, gpxWaypoints);
+		}
 		return params.id;
 	}).catch(err => {
 		if(err.code === 'ER_NO_REFERENCED_ROW_2') {
@@ -108,7 +138,7 @@ Activity.create = (params) => {
 		}
 		throw err;
 	});
-};
+}
 
 Activity.update = (id, params) => {
 	if(typeof params === 'undefined') {

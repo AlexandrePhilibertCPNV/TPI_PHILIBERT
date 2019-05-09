@@ -32,7 +32,7 @@ Util.hash = function(string, salt) {
  * @param  {object} err   error returned to the user
  * @param  {array} data   data returned to the user
  * 
- * @return {string} response body
+ * @return {string} response body of HTTP request
  */
 Util.createResponse = function(response) {
     if(typeof response.data !== 'undefined' && !Array.isArray(response.data)) {
@@ -42,6 +42,14 @@ Util.createResponse = function(response) {
         error: response.err,
         data: response.data
     });
+}
+
+Util.renameProperties = function(source, values) {
+    for(var key in values) {
+        var attribute = source[key];
+        delete source[key];
+        source[values[key]] = attribute;
+    }
 }
 
 module.exports = Util;

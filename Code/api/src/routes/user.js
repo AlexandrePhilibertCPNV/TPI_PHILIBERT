@@ -28,10 +28,11 @@ router.get('/:userId', [Auth.bearerLogin], (req, res, next) => {
     });
 });
 
+// Create user
 router.post('/', (req, res, next) => {
     if (!req.body) {
         next(new Error('Missing request body'));
-    }
+	}
     User.create(req.body).then(id => {
 		res.statusCode = 201;
 		res.setHeader('Content-Type', 'application/json');
@@ -61,12 +62,13 @@ router.delete('/:userId', [Auth.bearerLogin, Auth.isOwner], (req, res, next) => 
 		res.setHeader('Content-Type', 'application/json');
 		return User.get(req.user.id);
 	}).then(result => {
-		res.end(JSON.stringify({data: result}));
+		res.end(Util.createResponse({data: [result]}));
 	}).catch(err => {
 		next(err);
 	});
 });
 
+// Create activity
 router.post('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	if(!req.body || req.body.length === 0) {
 		var error = new Error('Missing request body');
@@ -75,6 +77,9 @@ router.post('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	}
 	var values = req.body;
 	values.userId = req.params.userId;
+	if(req.files && req.files.gpx) {
+		values.gpx = req.files.gpx.path;
+	}
 	
     Activity.create(values).then(id => {
 		res.setHeader('Content-Type', 'application/json');
@@ -96,10 +101,18 @@ router.get('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	});
 });
 
+router.get('/:userId/activity/:activityId', [Auth.bearerLogin], (req, res, next) => {
+	Activity.get(req.params.activityId).then(result => {
+		res.setHeader('Content-Type', 'application/json');
+		res.end(Util.createResponse({data: result}));
+	}).catch(err => {
+		next(err);
+	});
+});
 
 // handle the user part of the request, then calls the token router
 // router.use('/:userId/token', (req, res, next) => {
-    // next();
+//     next();
 // }, require('../routes/token'));
 
 // handle errors that happend in the routes above

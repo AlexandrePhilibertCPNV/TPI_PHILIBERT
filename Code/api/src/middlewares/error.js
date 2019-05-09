@@ -14,7 +14,6 @@ module.exports = (err, req, res, next) => {
 	switch(err.code) {
 		case 'ER_MISSING_REQ_LOGIN':
 		case 'ER_MISSING_BODY':
-		//case 'ER_MISSING_TOKEN':
 		case 'ER_MYSQL_QUERY':
 			// Bad request
 			res.statusCode = 400;
@@ -34,7 +33,7 @@ module.exports = (err, req, res, next) => {
 			return;
 		case 'ER_RESSOURCE_AUTHORIZATION':
 			res.statusCode = 404;
-			res.end('Ressource does not exist');
+			_sendResponse(res, {code: 'ER_RES_NOT_FOUND', message: 'Requested ressource was not found'});
 			return;
 	}
 
