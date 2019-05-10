@@ -20,6 +20,8 @@ var returnedFields = [
 	"end_timestamp",
 	"total_distance_km",
 	"total_average_speed",
+	"total_positive_height_diff",
+	"total_negative_height_diff",
 	"removed",
 	"fk_place",
 ]
@@ -74,11 +76,35 @@ function _computeGpxFields(gpx) {
 	var deltaTimeSeconds = Math.abs(startTimeSeconds - endTimeSeconds);
 	var averageSpeed = totalDistanceKm / (deltaTimeSeconds / 60 / 60);
 
+	var heightDiffs = _getHeightDiff(waypoints);
+
 	return {
 		start_timestamp: startTimestamp.toISOString(),
 		end_timestamp: endTimestamp.toISOString(),
 		total_distance_km: totalDistanceKm,
-		total_average_speed: averageSpeed
+		total_average_speed: averageSpeed,
+		total_positive_height_diff: heightDiffs.positive,
+		total_negative_height_diff: heightDiffs.negative
+	};
+}
+
+function _getHeightDiff(positions) {
+	var positiveDiff = 0;
+	var negativeDiff = 0;
+    for(var point = 0; point < positions.length; point++) {
+		if(!positions[point+1] || point == 0) {
+			continue;
+		}
+        if(positions[point+1].elevation > positions[point].elevation) {
+            positiveDiff += Math.abs(positions[point].elevation - positions[point+1].elevation);
+		}
+		if(positions[point+1].elevation < positions[point].elevation) {
+            negativeDiff += Math.abs(positions[point].elevation - positions[point+1].elevation);
+		}
+    }
+    return {
+		positive: positiveDiff,
+		negative: negativeDiff
 	};
 }
 
@@ -185,9 +211,9 @@ Activity.addPositon = (activityId, gpxWaypoint) => {
 		let values = {
 			fk_activity: activityId,
 			latitude: gpxWaypoint.lat || gpxWaypoint.latitude,
-			longitude: gpxWaypoint.lon || gpxWaypoint.timestamp,
+			longitude: gpxWaypoint.lon || gpxWaypoint.longitude,
 			timestamp: gpxWaypoint.time || gpxWaypoint.timestamp,
-			altitude: gpxWaypoint.elevation || gpxWaypoint.timestamp
+			altitude: gpxWaypoint.elevation || gpxWaypoint.altitude
 		};
 
 		var result = conn.query('INSERT INTO tbl_position SET id=UUID(), ?', [values]);
