@@ -14,7 +14,7 @@ export default function() {
         });
         return row;
     }
-
+   
     var activityCreation = document.createElement('form');
     activityCreation.classList.add('activityCreation');
     container.appendChild(activityCreation);
@@ -40,17 +40,30 @@ export default function() {
     locationLabel.innerText = 'Lieu';
 
     var countries = document.createElement('select');
-    var switzerland = document.createElement('option');
-    switzerland.value = 'f88d8c32-716d-11e9-8599-9215f1299811';
-    switzerland.innerText = 'Suisse';
-    countries.appendChild(switzerland);
+    Util.createRequest('GET', '/api/country/').then(data => {
+        data.forEach(countryData => {
+            var country = document.createElement('option');
+            country.value = countryData.id;
+            country.innerText = countryData.name
+            countries.appendChild(country);
+        })
+    });
 
     var places = document.createElement('select');
-    var steCroix = document.createElement('option');
-    steCroix.value = 'f88d8c32-746d-11e9-8499-9215f1299811'
-    steCroix.innerText = 'Sainte-croix';
-    places.appendChild(steCroix);
     leftPane.appendChild(createRow([locationLabel, countries, places]));
+
+    countries.addEventListener('change', evt => {
+        var selectedCountryId = countries.options[countries.selectedIndex].value;
+        places.innerHTML = '';
+        Util.createRequest('GET', '/api/country/' + selectedCountryId + '/place').then(data => {
+            data.forEach(placesData => {
+                var place = document.createElement('option');
+                place.value = placesData.id;
+                place.innerText = placesData.name
+                places.appendChild(place);
+            })
+        });
+    });
 
     var typeLabel = document.createElement('label');
     typeLabel.innerText = 'Type';
@@ -58,10 +71,16 @@ export default function() {
 
     var type = document.createElement('select');
     type.id = 'activityTypeId';
-    var running = document.createElement('option');
-    running.value = 'f88d5c32-746d-11e9-8499-9218f1299311'
-    running.innerText = 'Course à pied';
-    type.appendChild(running);
+
+    Util.createRequest('GET', '/api/activity-type').then(data => {
+        data.forEach(typeData => {
+            var activityType = document.createElement('option');
+            activityType.value = typeData.id;
+            activityType.innerText = typeData.name
+            type.appendChild(activityType);
+        })
+    });
+
     leftPane.appendChild(createRow([typeLabel, type]));
 
     var startLabel = document.createElement('label');
@@ -122,6 +141,30 @@ export default function() {
     var submitButton = document.createElement('button');
     submitButton.innerText = "Créer";
     rightPane.appendChild(createRow([submitButton]));
+
+    submitButton.addEventListener('click', function(evt) {
+        evt.preventDefault();
+
+        var body = {};
+        for(var elemIndex = 0; elemIndex < activityCreation.elements.length; elemIndex++) {
+            if(typeof activityCreation.elements[elemIndex] === 'button') {
+                continue;
+            }
+            body[activityCreation.elements[elemIndex].id] = activityCreation.elements[elemIndex].value;
+        }
+
+        var request = new XMLHttpRequest();
+        request.open('POST', 'api/user/' + 'c45864c5-3523-4eb5-9c70-198d9cbba346' + '/activity', true);
+
+        request.onload = function() {
+			var response = JSON.parse(this.responseText);
+            if(response.err) {
+                errorMessage.innerText = response.err.message;
+            }
+        }
+        
+        request.send(body);
+    });
 
     return center;
 }

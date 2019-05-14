@@ -4,13 +4,14 @@ const Router = require('router');
 
 const Auth = require('../middlewares/auth');
 const Activity = require('../models/activity');
+const Util = require('../util');
 
 var router = new Router();
 
 router.get('/', (req, res, next) => {
 	Activity.getType().then(result => {
 		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(result));
+		res.end(Util.createResponse({data: result}));
 	});
 });
 
