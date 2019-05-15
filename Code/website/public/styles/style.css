@@ -116,6 +116,14 @@ a {
 	display: inline-block;
 }
 
+#name, #activityTypeId {
+	width: 260px;
+}
+
+#country {
+	width: 80px;
+}
+
 form {
 	display: inline-block;
 	text-align: right;
@@ -123,8 +131,13 @@ form {
 	margin-bottom: 20px;
 }
 
+select, input {
+	width: 180px;
+}
+
 .formRow {
 	width: 100%;
+	min-width: 350px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -141,12 +154,4 @@ label, input, select, button {
 
 input[type="submit"] {
 	cursor: pointer;
-}
-
-input:valid:focus:after {
-	border: 1px solid #629ada;
-}
-
-input:invalid:focus:after {
-	border: 1px solid red;
 }

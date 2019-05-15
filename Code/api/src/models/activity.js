@@ -24,7 +24,17 @@ var returnedFields = [
 	"total_negative_height_diff",
 	"removed",
 	"fk_place",
-]
+];
+
+var insertFields = [
+	"id",
+	"fk_activityType",
+	"fk_user",
+	"name",
+	"start_timestamp",
+	"end_timestamp",
+	"fk_place",
+];
 
 var allowedModifications = [
 	'name',
@@ -124,6 +134,7 @@ Activity.get = (id) => {
 Activity.create = (params) => {
 	params.id = uuidv4();
 	var promise = Promise.resolve();
+	//overwrite promise if gpx is set
 	if(params.gpx) {
 		promise = _parseGpx(params.gpx);
 	}
@@ -136,9 +147,25 @@ Activity.create = (params) => {
 			var gpxFields = _computeGpxFields(gpx);
 			Object.assign(values, gpxFields);
 		}
-		// Override values found in GPX with values provided by the user
+		// overwrite values found in GPX with values provided by the user
 		Object.assign(values, params);
 		Util.renameProperties(values, {placeId: 'fk_place', activityTypeId: 'fk_activityType', userId: 'fk_user'})
+
+		//Check if all properties are present
+		for(var key of insertFields) {
+			if(!values[key]) {
+				let err = new Error('Missing property ' + key);
+				err.code = "ER_MISSING_PROP";
+				throw err;
+			}
+		}
+
+		// Remove fields that are not allowed to be inserted
+		for(var key in values) {
+			if(!insertFields.includes(key)) {
+				delete values[key];
+			}
+		}
 
 		// Check timestamp format
 		if(values.start_timestamp && !validator.isRFC3339(values.start_timestamp)) {

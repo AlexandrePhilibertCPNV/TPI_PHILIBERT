@@ -15,6 +15,7 @@ module.exports = (err, req, res, next) => {
 		case 'ER_MISSING_REQ_LOGIN':
 		case 'ER_MISSING_BODY':
 		case 'ER_MYSQL_QUERY':
+		case 'ER_MISSING_PROP':
 			// Bad request
 			res.statusCode = 400;
 			_sendResponse(res, err);
