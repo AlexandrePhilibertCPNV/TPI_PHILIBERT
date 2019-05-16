@@ -12,6 +12,29 @@ const Util = require('../util');
 var Activity = {};
 
 var returnedFields = [
+	"tbl_activity.id",
+	"fk_activityType",
+	"fk_user",
+	"tbl_activity.name",
+	"start_timestamp",
+	"end_timestamp",
+	"total_distance_km",
+	"total_average_speed",
+	"total_positive_height_diff",
+	"total_negative_height_diff",
+	"tbl_activity.removed",
+	"fk_place"
+];
+
+var insertFields = [
+	"id",
+	"fk_activityType",
+	"fk_user",
+	"name",
+	"fk_place"
+];
+
+var allowedInsertion = [
 	"id",
 	"fk_activityType",
 	"fk_user",
@@ -22,19 +45,10 @@ var returnedFields = [
 	"total_average_speed",
 	"total_positive_height_diff",
 	"total_negative_height_diff",
-	"removed",
 	"fk_place",
-];
+	"gpx"
+]
 
-var insertFields = [
-	"id",
-	"fk_activityType",
-	"fk_user",
-	"name",
-	"start_timestamp",
-	"end_timestamp",
-	"fk_place",
-];
 
 var allowedModifications = [
 	'name',
@@ -124,7 +138,8 @@ Activity.get = (id) => {
 		if (typeof id !== 'undefined') {
 			result = conn.query('SELECT ?? FROM tbl_activity WHERE id=?', [returnedFields ,id]);
 		} else {
-			result = conn.query('SELECT ?? FROM tbl_activity', [returnedFields]);
+			// Select activities and return 1 if gpx path is different than null
+			result = conn.query('SELECT ??, CASE WHEN gpx IS NULL THEN 0 ELSE 1 END AS has_gpx FROM tbl_activity', [returnedFields]);
 		}
 		conn.end();
 		return result;
@@ -162,7 +177,7 @@ Activity.create = (params) => {
 
 		// Remove fields that are not allowed to be inserted
 		for(var key in values) {
-			if(!insertFields.includes(key)) {
+			if(!allowedInsertion.includes(key)) {
 				delete values[key];
 			}
 		}

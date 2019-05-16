@@ -20,6 +20,13 @@ module.exports = (err, req, res, next) => {
 			res.statusCode = 400;
 			_sendResponse(res, err);
 			return;
+		case 'ER_NO_REFERENCED_ROW':
+			// Bad request but error code not returned 
+			res.statusCode = 400;
+			let error = new Error('Bad formated request');
+			error.code = 'ER_BAD_REQUEST';
+			_sendResponse(res, error);
+			return;
 		case 'ER_EMAIL_REGISTERED':
 			 // Conflict
 			res.statusCode = 409;

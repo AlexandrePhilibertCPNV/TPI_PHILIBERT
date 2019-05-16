@@ -14,6 +14,22 @@ export default function() {
         });
         return row;
     }
+
+    
+    /**
+     * @param  {string} selectedCountryId the country from which we want to select its places
+     * @param  {object} targetElem  the target HTML select element we want to append the result to
+     */
+    function queryPlaces(selectedCountryId, targetElem) {
+        Util.createRequest('GET', '/api/country/' + selectedCountryId + '/place').then(data => {
+            data.forEach(placesData => {
+                var place = document.createElement('option');
+                place.value = placesData.id;
+                place.innerText = placesData.name
+                targetElem.appendChild(place);
+            })
+        });
+    }
    
     var activityCreation = document.createElement('form');
     activityCreation.onsubmit = "#";
@@ -51,7 +67,9 @@ export default function() {
             country.value = countryData.id;
             country.innerText = countryData.name
             countries.appendChild(country);
-        })
+        });
+        var selectedCountryId = countries.options[countries.selectedIndex].value;
+        queryPlaces(selectedCountryId, places)
     });
 
     var places = document.createElement('select');
@@ -64,14 +82,7 @@ export default function() {
     countries.addEventListener('change', evt => {
         var selectedCountryId = countries.options[countries.selectedIndex].value;
         places.innerHTML = '';
-        Util.createRequest('GET', '/api/country/' + selectedCountryId + '/place').then(data => {
-            data.forEach(placesData => {
-                var place = document.createElement('option');
-                place.value = placesData.id;
-                place.innerText = placesData.name
-                places.appendChild(place);
-            })
-        });
+        queryPlaces(selectedCountryId, places)
     });
 
     var typeLabel = document.createElement('label');
@@ -91,9 +102,42 @@ export default function() {
             type.appendChild(activityType);
         })
     });
-    
 
     leftPane.appendChild(createRow([typeLabel, type]));
+
+    var gpxFileLabel = document.createElement('label');
+    gpxFileLabel.setAttribute('for', 'gpx');
+    gpxFileLabel.innerText = 'GPX';
+
+    var gpxFile = document.createElement('input');
+    gpxFile.id = 'gpx';
+    gpxFile.type = 'file';
+
+    gpxFile.addEventListener('change', function(evt) {
+        if(gpxFile.files.length > 0) {
+            infoMessage.innerText = 'Les champs de la colonne de droite ne sont plus requis';
+            [start, end, distance, posHeightDiff, negHeightDiff].forEach(elem => {
+                elem.required = false;
+            });
+            return;
+        }
+        infoMessage.innerText = '';
+        [start, end, distance, posHeightDiff, negHeightDiff].forEach(elem => {
+            elem.required = true;
+        });
+    });
+
+    leftPane.appendChild(createRow([gpxFileLabel, gpxFile]));
+
+    var infoContainer = document.createElement('div');
+    infoContainer.classList.add('infoContainer');
+
+    var infoMessage = document.createElement('div');
+    infoMessage.classList.add('infoMessage');
+    infoContainer.appendChild(infoMessage);
+
+    leftPane.appendChild(createRow([infoContainer]));
+    
 
     var startLabel = document.createElement('label');
     startLabel.setAttribute('for', 'start_timestamp');
@@ -106,7 +150,7 @@ export default function() {
     rightPane.appendChild(createRow([startLabel, start]));
 
     var endLabel = document.createElement('label');
-    startLabel.setAttribute('for', 'end_timestamp');
+    endLabel.setAttribute('for', 'end_timestamp');
     endLabel.innerText = 'Fin';
 
     var end = document.createElement('input');
@@ -116,7 +160,8 @@ export default function() {
     rightPane.appendChild(createRow([endLabel, end]));
 
     var distanceLabel = document.createElement('label');
-    distanceLabel.innerText = 'Distance';
+    distanceLabel.setAttribute('for', 'distance');
+    distanceLabel.innerText = 'Distance (km)';
 
     var distance = document.createElement('input');
     distance.id = "distance";
@@ -128,34 +173,28 @@ export default function() {
     rightPane.appendChild(createRow([distanceLabel, distance]));
 
     var posHeightDiffLabel = document.createElement('label');
-    posHeightDiffLabel.innerText = 'Dénivelé positif';
+    posHeightDiffLabel.setAttribute('for', 'total_positive_height_diff');
+    posHeightDiffLabel.innerText = 'Dénivelé positif (m)';
 
     var posHeightDiff = document.createElement('input');
     posHeightDiff.id = "total_positive_height_diff";
     posHeightDiff.type = 'number';
     posHeightDiff.required = true;
     posHeightDiff.min = 0;
+
     rightPane.appendChild(createRow([posHeightDiffLabel, posHeightDiff]));
 
     var negHeightDiffLabel = document.createElement('label');
-    negHeightDiffLabel.innerText = 'Dénivelé négatif';
+    negHeightDiffLabel.setAttribute('for', 'total_negative_height_diff');
+    negHeightDiffLabel.innerText = 'Dénivelé négatif (m)';
 
     var negHeightDiff = document.createElement('input');
     negHeightDiff.id = "total_negative_height_diff";
     negHeightDiff.type = 'number';
     negHeightDiff.required = true;
     negHeightDiff.min = 0;
+
     rightPane.appendChild(createRow([negHeightDiffLabel, negHeightDiff]));
-
-    var averageSpeedLabel = document.createElement('label');
-    averageSpeedLabel.innerText = 'Vitesse moyenne';
-
-    var averageSpeed = document.createElement('input');
-    averageSpeed.id = "total_average_speed";
-    averageSpeed.type = 'number';
-    averageSpeed.min = 0;
-    averageSpeed.required = true;
-    rightPane.appendChild(createRow([averageSpeedLabel, averageSpeed]));
 
     var errorContainer = document.createElement('div');
     errorContainer.classList.add('errorContainer');
@@ -171,34 +210,57 @@ export default function() {
     submitButton.innerText = "Créer";
     rightPane.appendChild(createRow([submitButton]));
 
+    function getFormElementsValue(form) {
+        var values = {};
+        for(var elemIndex = 0; elemIndex < form.elements.length; elemIndex++) {
+            if(typeof form.elements[elemIndex] === 'button' || !form.elements[elemIndex].id) {
+                continue;
+            }
+            if(form.elements[elemIndex].value === '') {
+                continue;
+            }
+            values[form.elements[elemIndex].id] = form.elements[elemIndex].value;
+        }
+        return values;
+    }
+
     activityCreation.addEventListener('submit', function(evt) {
         evt.preventDefault();
 
-            var body = {};
-            //Get value from form field
-            for(var elemIndex = 0; elemIndex < activityCreation.elements.length; elemIndex++) {
-                if(typeof activityCreation.elements[elemIndex] === 'button' || !activityCreation.elements[elemIndex].id) {
-                    continue;
-                }
-                body[activityCreation.elements[elemIndex].id] = activityCreation.elements[elemIndex].value;
+        //Get value from form field
+        var body = getFormElementsValue(activityCreation);
+
+        var formData = new FormData(activityCreation);
+
+        for(let attr in body) {
+            if(attr === 'gpx') {
+                formData.append(attr, activityCreation.elements[attr].files[0], 'gpx');
             }
-    
-            var request = new XMLHttpRequest();
-            request.open('POST', 'api/user/' + 'c45864c5-3523-4eb5-9c70-198d9cbba346' + '/activity', true);
-            request.setRequestHeader('Content-Type', "application/json");
-            request.setRequestHeader('Authorization', 'Bearer ' + Util.getCookie("userToken"));
-    
-            request.onload = function() {
-        		var response = JSON.parse(this.responseText);
-                if(response.err) {
-                    // errorMessage.innerText = response.err.message;
-                    errorMessage.innerText = "Une erreur est survenue sur le serveur, veuillez réessayer";
-                    return;
-                }
+            formData.append(attr, body[attr]);
+        }
+
+        var request = new XMLHttpRequest();
+        request.open('POST', 'api/user/' + 'c45864c5-3523-4eb5-9c70-198d9cbba346' + '/activity', true);
+        // request.setRequestHeader('Content-Type', "application/json");
+        request.setRequestHeader('Authorization', 'Bearer ' + Util.getCookie("userToken"));
+
+        request.onload = function() {
+            var response = JSON.parse(this.responseText);
+            if(!response.err) {
                 errorMessage.innerText = "";
+                return;
             }
-            
-            request.send(JSON.stringify(body));
+            if(response.err.code === 'ER_TOKEN_VALIDATION') {
+                errorMessage.innerText = 'Vous n\'êtes pas autorisé à effectué cette action';
+                return;
+            }
+            errorMessage.innerText = 'Une erreur est survenue lors du traitement de la requête';
+        }
+        
+        for (var [key, value] of formData.entries()) { 
+            console.log(key, value);
+        }
+        request.send(formData);
     })
 
     return center;

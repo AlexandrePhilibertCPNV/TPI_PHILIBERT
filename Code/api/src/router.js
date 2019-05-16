@@ -19,11 +19,11 @@ router.use(formData);
 router.use(require('./middlewares/error'));
 
 router.use('/token', require('./routes/token'));
+router.use('/place', require('./routes/place'));
 router.use('/user', require('./routes/user'));
 router.use('/activity', require('./routes/activity'));
 router.use('/activity-type', require('./routes/activityType'));
 router.use('/country', require('./routes/country'));
-
 
 // this router is called when no routes where taken
 router.use(require('./routes/notfound'));

@@ -1,8 +1,11 @@
 Util = {
-   createRequest: function(method, path, body) {
+   createRequest: function(method, path, body, headers) {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest();
             request.open(method, path, true);
+            for(let key in headers) {
+                request.setRequestHeader(key, headers[key]);
+            }
             request.onload = function(evt) {
                 var response = JSON.parse(request.responseText);
                 if(response.err) {

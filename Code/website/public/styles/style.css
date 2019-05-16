@@ -12,6 +12,61 @@ a {
 	color: inherit;
 }
 
+form {
+	display: inline-block;
+	text-align: right;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+select, input {
+	width: 180px;
+}
+
+label {
+	float: left;
+}
+
+label, input, select, button, .fieldIndicator {
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+input[type="submit"], button {
+	cursor: pointer;
+}
+
+input[type="file"] {
+	width: 250px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th {
+	background-color: #ccc;
+}
+
+th, td {
+	padding: 10px;
+}
+
+tr:nth-child(even) {
+	background-color: rgba(238, 238, 238, 0.8);
+}
+tr:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.activitesTable {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+	
+
 .loginPageContainer {
 	text-align: center;
 }
@@ -79,7 +134,15 @@ a {
 	width: 100%;
 }
 
-.errorContainer {
+.infoMessage {
+	height: 2em;
+	color: #e49e1c;
+	font-weight: bold;
+	/* white-space: pre-wrap; */
+	word-wrap: break-word;
+}
+
+.infoContainer, .errorContainer {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
@@ -94,11 +157,15 @@ a {
 
 .mainContainer {
 	display: inline-block;
-	max-width: 800px;
+	max-width: 1000px;
 }
 
 .center {
 	text-align: center;
+	background-image: url('../img/background_running.jpg');
+	background-attachment: fixed;
+	background-position: bottom;
+	min-height: calc(100vh - 102px);
 }
 
 .formPane {
@@ -124,17 +191,6 @@ a {
 	width: 80px;
 }
 
-form {
-	display: inline-block;
-	text-align: right;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-select, input {
-	width: 180px;
-}
-
 .formRow {
 	width: 100%;
 	min-width: 350px;
@@ -142,16 +198,3 @@ select, input {
 	margin-bottom: 10px;
 }
 
-label {
-	float: left;
-}
-
-label, input, select, button {
-	padding: 8px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-input[type="submit"] {
-	cursor: pointer;
-}
