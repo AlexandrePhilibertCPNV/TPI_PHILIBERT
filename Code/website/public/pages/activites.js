@@ -38,9 +38,10 @@ export default function() {
                     break;
                 case 'has_gpx':
                     if(activity[key] === 1) {
-                        let button = document.createElement('button');
-                        button.innerText = 'Parcours';
-                        td.appendChild(button);
+                        let link = document.createElement('a');
+                        link.href = '#activity/' + activity['id'];
+                        link.innerText = 'Parcours';
+                        td.appendChild(link);
                     }
                     break;
                 default:
@@ -71,6 +72,10 @@ export default function() {
 
     let userId = Util.getCookie("userId");
     let userToken = Util.getCookie('userToken');
+
+    if(!userToken) {
+        window.location.hash = '#notfound';
+    }
 
     Promise.all([typesPromise, placesPromise]).then(Util.createRequest('GET', '/api/user/' + userId + '/activity', null, {Authorization: 'Bearer '+ userToken}).then(data => {
         data.forEach(activity => {

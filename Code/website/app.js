@@ -1,22 +1,20 @@
 'use strict';
 
 const fs = require('fs');
+const url = require('url');
 const path = require('path');
 const mime = require('mime');
 const serveStatic = require('serve-static');
 const Router = require('router');
 
-const alias = {
-    '/': '/index.html',
-    '/login': '/index.html',
-    '/admin': '/admin.html',
-    '/sports': '/sports.html'
-};
-
 let router = new Router();
 
 module.exports = (req, res) => {
-	var location = alias[req.url] || req.url;
+	var location = url.parse(req.url).pathname;
+	// get index.html on /
+	if(location === '/' || location === '') {
+		location = '/index.html';
+	}
 	var srcPath = path.resolve(__dirname + '/public' + location);
     fs.readFile(srcPath, (err, data) => {
 		if(err) {
@@ -30,7 +28,7 @@ module.exports = (req, res) => {
 			return;
 		}
 		res.statusCode = 200;
-		res.setHeader('Content-Type', mime.getType(alias[req.url] || req.url));
+		res.setHeader('Content-Type', mime.getType(location));
 		res.end(data);
 	});
 };

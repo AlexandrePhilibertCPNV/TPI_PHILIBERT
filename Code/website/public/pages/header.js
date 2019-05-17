@@ -12,6 +12,10 @@ export default function() {
         for(let pageName in _this._menuItems) {
             this._menuItems[pageName].classList.remove('menuItemCurrent');
         }
+        //if no menuItem is linked to path
+        if(!this._menuItems[path]) {
+            return;
+        }
         this._menuItems[path].classList.add('menuItemCurrent');
     }
 
