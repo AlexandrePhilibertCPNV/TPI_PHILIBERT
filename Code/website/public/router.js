@@ -26,10 +26,10 @@ function Router() {
         //if page has already been loaded before
         if(_this._loadedPages[path]) {
             if(_this._displayedPage) {
-                _this._loadedPages[_this._displayedPage].style.display = "";
+                _this._loadedPages[_this._displayedPage].style.display = "none";
             }
             _this._displayedPage = path;
-            _this._loadedPages[path].style.display = "none";
+            _this._loadedPages[path].style.display = "";
             console.log('Page ' + path + ' has been retreived from cache');
             return;
         }
