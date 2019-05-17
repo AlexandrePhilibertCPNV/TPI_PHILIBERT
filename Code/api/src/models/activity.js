@@ -81,7 +81,9 @@ function _parseGpx(path) {
 		}
 		gpxParse.parseGpxFromFile(path, (err, data) => {
 			if(err) {
-				reject(err);
+				let error = new Error('GPX parse error');
+				error.code = 'ER_GPX_PARSE';
+				return reject(error);
 			}
 			resolve(data);
 		});

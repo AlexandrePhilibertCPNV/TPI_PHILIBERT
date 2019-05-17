@@ -5,6 +5,10 @@
 
 body {
 	margin: 0;
+	background-image: url('../img/background_running.jpg');
+	background-attachment: fixed;
+	background-position: bottom;
+	min-height: calc(100vh - 102px);
 }
 
 a {
@@ -15,9 +19,8 @@ a {
 form {
 	display: inline-block;
 	text-align: right;
-	margin-top: 20px;
 	margin-bottom: 20px;
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 select, input {
@@ -48,25 +51,26 @@ table {
 
 th {
 	background-color: #ccc;
+	position: sticky;
+	top: 0;
 }
 
 th, td {
+	text-align: center;
 	padding: 10px;
 }
 
 tr:nth-child(even) {
-	background-color: rgba(238, 238, 238, 0.8);
+	background-color: rgba(238, 238, 238, 0.9);
 }
 tr:nth-child(odd) {
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 .activitesTable {
-	margin-top: 50px;
 	margin-bottom: 50px;
 }
 	
-
 .loginPageContainer {
 	text-align: center;
 }
@@ -81,8 +85,12 @@ tr:nth-child(odd) {
 	border: 1px solid #629ada;
 	border-radius: 20px;
 	box-shadow: 5px 5px 5px 0px rgba(35, 91, 146, 0.75);
-	
 	min-height: 450px;
+}
+
+.header {
+	margin-bottom: 50px;
+	background-color: rgba(40, 40, 40, 0.9);
 }
 
 .menuContainer {
@@ -92,9 +100,7 @@ tr:nth-child(odd) {
 .menu {
 	width: 100%;
 	padding: 10px;
-	background-color: #c3c3c3;
-	border: 1px solid #aaa;
-	font-size: 18px;
+	font-size: 20px;
 	color: #fff;
 }
 
@@ -114,8 +120,6 @@ tr:nth-child(odd) {
 
 .menuItemCurrent {
 	color: #56adcf;
-	font-weight: bold;
-	text-shadow: none;
 }
 
 .contentContainer {
@@ -162,10 +166,6 @@ tr:nth-child(odd) {
 
 .center {
 	text-align: center;
-	background-image: url('../img/background_running.jpg');
-	background-attachment: fixed;
-	background-position: bottom;
-	min-height: calc(100vh - 102px);
 }
 
 .formPane {
@@ -197,4 +197,3 @@ tr:nth-child(odd) {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
-

@@ -256,10 +256,6 @@ export default function() {
             }
             errorMessage.innerText = 'Une erreur est survenue lors du traitement de la requête';
         }
-        
-        for (var [key, value] of formData.entries()) { 
-            console.log(key, value);
-        }
         request.send(formData);
     })
 
