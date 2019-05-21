@@ -240,7 +240,8 @@ export default function() {
         }
 
         var request = new XMLHttpRequest();
-        request.open('POST', 'api/user/' + 'c45864c5-3523-4eb5-9c70-198d9cbba346' + '/activity', true);
+        let userId = Util.getCookie('userId');
+        request.open('POST', 'api/user/' + userId + '/activity', true);
         // request.setRequestHeader('Content-Type', "application/json");
         request.setRequestHeader('Authorization', 'Bearer ' + Util.getCookie("userToken"));
 

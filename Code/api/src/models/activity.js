@@ -204,7 +204,7 @@ Activity.create = (params) => {
 		console.error(err);
 		if(err.code === 'ER_NO_REFERENCED_ROW_2') {
 			var error = new Error('Id matching error');
-			error.code = 'ER_MYSQL_QUERY';
+			error.code = 'ER_ID_MATCHING';
 			throw error;			
 		}
 		throw err;
