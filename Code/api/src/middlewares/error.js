@@ -14,7 +14,7 @@ module.exports = (err, req, res, next) => {
 	switch(err.code) {
 		case 'ER_MISSING_REQ_LOGIN':
 		case 'ER_MISSING_BODY':
-		case 'ER_MYSQL_QUERY':
+		case 'ER_ID_MATCHING':
 		case 'ER_MISSING_PROP':
 		case 'ER_GPX_PARSE':
 			// Bad request
