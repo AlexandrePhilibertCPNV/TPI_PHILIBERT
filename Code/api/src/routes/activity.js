@@ -61,7 +61,7 @@ router.put('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next)
 });
 
 router.get('/:activityId/position', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
-	Activity.getPosition().then(result => {
+	Activity.getPosition({activityId: req.params.activityId}).then(result => {
 		res.statusCode = 200;
 		res.setHeader('Content-Type', 'application/json');
 		res.end(Util.createResponse({data: result}));

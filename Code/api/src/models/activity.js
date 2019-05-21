@@ -30,7 +30,6 @@ var insertFields = [
 	"id",
 	"fk_activityType",
 	"fk_user",
-	"name",
 	"fk_place"
 ];
 
@@ -160,7 +159,7 @@ Activity.create = (params) => {
 	return promise.then(gpx => {
 		var values = {};
 		if(!!gpx) {
-			gpxWaypoints = gpx.waypoints;
+			gpxWaypoints = gpx.tracks[0].segments[0];
 			var gpxFields = _computeGpxFields(gpx);
 			Object.assign(values, gpxFields);
 		}
@@ -288,11 +287,11 @@ Activity.addPositions = (activityId, gpxWaypoints) => {
 	});
 };
 
-Activity.getPosition = (id) => {
+Activity.getPosition = (params) => {
 	return mysql.createConnection(dbConfig).then(conn => {
 		var result;
-		if (typeof id !== 'undefined') {
-			result = conn.query('SELECT * FROM tbl_position WHERE id=?', [id]);
+		if (params.activityId) {
+			result = conn.query('SELECT * FROM tbl_position WHERE fk_activity=?', [params.activityId]);
 		} else {
 			result = conn.query('SELECT * FROM tbl_position LIMIT 200');
 		}

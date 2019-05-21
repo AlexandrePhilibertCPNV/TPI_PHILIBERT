@@ -69,7 +69,7 @@ export default function() {
 	
 	var types;
 	var places;
-
+    // Get activity types and all places before querying user activities for mapping
     Promise.all([
 		Util.createRequest('GET', '/api/activity-type'), 
 		Util.createRequest('GET', '/api/place')
@@ -79,6 +79,7 @@ export default function() {
 		return Util.createRequest('GET', '/api/user/' + userId + '/activity', null, {Authorization: 'Bearer '+ userToken});
 	}).then(data => {
 		data.forEach(activity => {
+            // Adding custom properties to received activity
 			for(let type in types) {
 				if(types[type].id === activity.fk_activityType) {
 					activity.activityTypeName = types[type].name;

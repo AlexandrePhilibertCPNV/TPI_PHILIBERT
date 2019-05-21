@@ -197,3 +197,8 @@ tr:nth-child(odd) {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+.googleMaps {
+	min-width: 600px;
+	min-height: 400px;
+}

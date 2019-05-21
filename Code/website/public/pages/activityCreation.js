@@ -44,16 +44,6 @@ export default function() {
     rightPane.classList.add('formPane', 'inlineBlock');
     activityCreation.appendChild(rightPane);
 
-    var nameLabel = document.createElement('label');
-    nameLabel.innerText = 'Nom';
-    nameLabel.for = "name";
-
-    var name = document.createElement('input');
-    name.id = "name";
-    name.type = "text";
-    name.required = true;
-    leftPane.appendChild(createRow([nameLabel, name]));
-    
     var locationLabel = document.createElement('label');
     locationLabel.innerText = 'Lieu';
 
