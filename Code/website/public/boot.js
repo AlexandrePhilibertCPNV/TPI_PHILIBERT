@@ -17,7 +17,12 @@ router.register('#notfound', notFound);
 router.register('#activityCreation', activityCreation);
 
 // load page from url or load default one
-router.loadPage(window.location.hash);
+if(window.location.hash) {
+    router.loadPage(window.location.hash);
+} else {
+    window.location.hash = '#activityCreation';
+}
+
 
 window.addEventListener('hashchange', function(evt) {
     header.notifyPageChange(window.location.hash);

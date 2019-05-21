@@ -21,7 +21,6 @@ export default function() {
         });
 
         let userToken = Util.getCookie('userToken');
-
         let path = [];
         Util.createRequest('GET', '/api/activity/' + '68d79819-b9b4-4057-8e38-a48859f3911e' + '/position', null, {Authorization: 'Bearer '+ userToken})
             .then(result => {
@@ -37,7 +36,6 @@ export default function() {
 					strokeOpacity: .7,
 					strokeWeight: 1.5
                 });
-              
               activityPath.setMap(map);
             });
       }
