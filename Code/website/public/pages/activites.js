@@ -52,16 +52,6 @@ export default function() {
         return tr;
     }
 
-    var types;
-    var typesPromise = Util.createRequest('GET', '/api/activity-type').then(data => {
-        types = data;
-    });
-
-    var places;
-    var placesPromise = Util.createRequest('GET', '/api/place').then(data => {
-        places = data;
-    });
-
     var activitiesTable = document.createElement('table');
     activitiesTable.classList.add('activitesTable');
     
@@ -76,23 +66,33 @@ export default function() {
     if(!userToken) {
         window.location.hash = '#notfound';
     }
+	
+	var types;
+	var places;
 
-    Promise.all([typesPromise, placesPromise]).then(Util.createRequest('GET', '/api/user/' + userId + '/activity', null, {Authorization: 'Bearer '+ userToken}).then(data => {
-        data.forEach(activity => {
-            for(let type in types) {
-                if(types[type].id === activity.fk_activityType) {
-                    activity.activityTypeName = types[type].name;
-                }
-            }
-            for(let place in places) {
-                if(places[place].id === activity.fk_place) {
-                    activity.placeName = places[place].name;
-                }
-            }
-            let row = createRow(activity);
-            activitiesTable.appendChild(row);
-        });
-    }));
+    Promise.all([
+		Util.createRequest('GET', '/api/activity-type'), 
+		Util.createRequest('GET', '/api/place')
+	]).then(values => {
+		types = values[0];
+		places = values[1];
+		return Util.createRequest('GET', '/api/user/' + userId + '/activity', null, {Authorization: 'Bearer '+ userToken});
+	}).then(data => {
+		data.forEach(activity => {
+			for(let type in types) {
+				if(types[type].id === activity.fk_activityType) {
+					activity.activityTypeName = types[type].name;
+				}
+			}
+			for(let place in places) {
+				if(places[place].id === activity.fk_place) {
+					activity.placeName = places[place].name;
+				}
+			}
+			let row = createRow(activity);
+			activitiesTable.appendChild(row);
+		});
+	});
 
 
     return center;
