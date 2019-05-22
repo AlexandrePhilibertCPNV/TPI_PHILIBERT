@@ -160,8 +160,10 @@ tr:nth-child(odd) {
 }
 
 .mainContainer {
+	width: 100%;
 	display: inline-block;
 	max-width: 1000px;
+	text-align: left;
 }
 
 .center {
@@ -201,4 +203,18 @@ tr:nth-child(odd) {
 .googleMaps {
 	min-width: 600px;
 	min-height: 400px;
+}
+
+.activityTitle {
+	font-weight: bold;
+	font-size: 20px;
+	color: #56adcf;
+	margin-bottom: 20px;
+	/* text-shadow: 1px 1px 2px black; */
+}
+
+.activityPageContainer {
+	width: 100%;
+	padding: 50px;
+	background-color: rgba(255, 255, 255, 0.9);
 }

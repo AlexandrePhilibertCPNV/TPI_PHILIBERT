@@ -22,7 +22,6 @@ function Router() {
             return;
         }
     }
-
     
     /**
      * Load a page from _loadedPages if in cache or load a page from _pages if not
@@ -30,30 +29,29 @@ function Router() {
      * @param  {string} completePath  example : #activities
      */
     this.loadPage = function(completePath) {
-        let path = completePath.split('/')[0];
+        let path = completePath.split('/');
         //if page has already been loaded before
-        if(_this._loadedPages[path]) {
+        if(_this._loadedPages[completePath]) {
             if(_this._displayedPage) {
                 _this._loadedPages[_this._displayedPage].style.display = "none";
             }
-            _this._displayedPage = path;
-            _this._loadedPages[path].style.display = "";
-            console.log('Page ' + path + ' has been retreived from cache');
+            _this._displayedPage = completePath;
+            _this._loadedPages[completePath].style.display = "";
+            console.log('Page ' + path[0] + ' has been retreived from cache');
             return;
         }
         let page;
-        if(typeof _this._pages[path] === 'function') {
-            page = _this._pages[path]();
+        if(typeof _this._pages[path[0]] === 'function') {
+            page = _this._pages[path[0]](path[1]);
         } else {
-            // page = _this.loadPage('notfound');
             window.location.hash = '#notfound';
         }
         if(_this._displayedPage) {
             _this._loadedPages[_this._displayedPage].style.display = "none";
         }
-        _this._loadedPages[path] = page;
+        _this._loadedPages[completePath] = page;
         _this._container.appendChild(page);
-        _this._displayedPage = path;
-        console.log('Page ' + path + ' has been loaded');
+        _this._displayedPage = completePath;
+        console.log('Page ' + path[0] + ' has been loaded');
     }
 }
