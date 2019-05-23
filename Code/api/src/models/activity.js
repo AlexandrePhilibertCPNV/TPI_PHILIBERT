@@ -291,7 +291,7 @@ Activity.getPosition = (params) => {
 	return mysql.createConnection(dbConfig).then(conn => {
 		var result;
 		if (params.activityId) {
-			result = conn.query('SELECT * FROM tbl_position WHERE fk_activity=?', [params.activityId]);
+			result = conn.query('SELECT * FROM tbl_position WHERE fk_activity=? ORDER BY timestamp ASC', [params.activityId]);
 		} else {
 			result = conn.query('SELECT * FROM tbl_position LIMIT 200');
 		}

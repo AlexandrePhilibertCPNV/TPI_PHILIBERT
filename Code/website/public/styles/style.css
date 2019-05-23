@@ -203,6 +203,7 @@ tr:nth-child(odd) {
 .googleMaps {
 	min-width: 600px;
 	min-height: 400px;
+	margin-bottom: 20px;
 }
 
 .activityTitle {
@@ -217,4 +218,24 @@ tr:nth-child(odd) {
 	width: 100%;
 	padding: 50px;
 	background-color: rgba(255, 255, 255, 0.9);
+}
+
+.activityStatTableTitle {
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+.activityStatTable {
+	white-space: nowrap
+}
+
+.activityStatTable td {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.activityStatTableContainer {
+	width: 100%;
+	overflow-x: auto;
+	border: 1px solid grey;
 }

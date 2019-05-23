@@ -36,6 +36,31 @@ export default function(activityId) {
 
     // -----------------
 
+    let pointSpacing = 2;
+    /**
+     * Compute the average pace by kilometers for a set of GPS coordinates
+     * 
+     * @param  {object} points GPS point with latitude, longitude and timestamp attributes
+     */
+    function getTrackPace(points) {
+        let currentKmIndex = 0;
+        let paceKm = [0];
+        let averageKmSpeed = [];
+        let startPointIndex = 0;
+        for(let pointIndex = 0; pointIndex < points.length - pointSpacing; pointIndex += pointSpacing) {
+            if(paceKm[currentKmIndex] >= 1) {
+                let kmTime = (new Date(points[pointIndex].timestamp) - new Date(points[startPointIndex].timestamp)) / 1000;
+                averageKmSpeed[currentKmIndex] = 1 / (kmTime / 3600);
+                currentKmIndex += 1;
+                paceKm[currentKmIndex] = 0;
+                startPointIndex = pointIndex;
+            }
+            paceKm[currentKmIndex] += getDistance(points[pointIndex], points[pointIndex+pointSpacing]);
+        }
+        return averageKmSpeed;
+    }
+   
+
     var center = document.createElement('div');
     center.classList.add('center');
 
@@ -54,6 +79,26 @@ export default function(activityId) {
     var mapElement = document.createElement('div');
     mapElement.classList.add('googleMaps');
     activityPageContainer.appendChild(mapElement);
+    
+    var paceTableTitle = document.createElement('div');
+    paceTableTitle.classList.add('activityStatTableTitle');
+    paceTableTitle.innerText = 'Moyenne au kilomètre';
+    activityPageContainer.appendChild(paceTableTitle);
+
+    var paceTableContainer = document.createElement('div');
+    paceTableContainer.classList.add('activityStatTableContainer');
+    activityPageContainer.appendChild(paceTableContainer);
+
+    var paceTable = document.createElement('table');
+    paceTable.classList.add('activityStatTable');
+    paceTableContainer.appendChild(paceTable);
+
+    var paceTableHeaderRow = document.createElement('tr');
+    paceTable.appendChild(paceTableHeaderRow);
+
+    var paceTableContentRow = document.createElement('tr');
+    paceTable.appendChild(paceTableContentRow);
+
 
     let userToken = Util.getCookie('userToken');
     Promise.all([
@@ -100,22 +145,17 @@ export default function(activityId) {
                 });
                 activityPath.setMap(map);
 
-                
-                // TODO : transform this into a function that returns pace/km
-
-                let distance = 0;
-                let firstKmIndex = 0;
-                for(let i = 0; i < 2000; i++) {
-                    if(distance > 1) {
-                        firstKmIndex = i;
-                        break;
-                    }
-                    distance += getDistance(points[i], points[i+1]);
-                }
-                console.log(firstKmIndex);
+                let trackPace = getTrackPace(points);
+                for(let kmIndex = 0; kmIndex < trackPace.length; kmIndex++) {
+                    let th = document.createElement('th');
+                    th.innerText = kmIndex + 1 + ' km';
+                    let td = document.createElement('td');
+                    td.innerText = trackPace[kmIndex].toFixed(2) + ' km/h';
+                    paceTableHeaderRow.appendChild(th);
+                    paceTableContentRow.appendChild(td);
+                }                
             });
     }
-
 
     let goolgeMapsLoaded = false;
     for(let script of document.scripts) {
