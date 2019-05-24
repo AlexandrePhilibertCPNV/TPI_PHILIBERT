@@ -193,6 +193,7 @@ tr:nth-child(odd) {
 .loadingBar {
 	height: 10px;
 	background-color: #56adcf;
+	transition: ease width 0.2s;
 }
 
 .messageBox {
