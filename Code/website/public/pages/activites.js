@@ -1,4 +1,4 @@
-export default function(params) {
+export default function() {
     var center = document.createElement('div');
     center.classList.add('center');
 

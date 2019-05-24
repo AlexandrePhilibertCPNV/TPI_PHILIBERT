@@ -266,7 +266,7 @@ export default function() {
     handleRemainingFieldsVisiblity();
 
     activityCreation.addEventListener('submit', function(evt) {
-        evt.preventDefault();
+        evt.preventDefault();     
 
         let formData = new FormData();
         formData.append('placeId', places.value)
@@ -277,6 +277,10 @@ export default function() {
         } else {
             let startTimestamp = new Date(startDate.value + ' ' + startTime.value);
             let endTimestamp = new Date(endDate.value + ' ' + endTime.value);
+            let durationHours = (endTimestamp - startTimestamp) / 1000 / 3600;
+            let totalAverageSpeed = distance.value / durationHours;
+
+            formData.append('total_average_speed', totalAverageSpeed);
             formData.append('start_timestamp', startTimestamp.toISOString());
             formData.append('end_timestamp', endTimestamp.toISOString());
             formData.append('total_distance_km', distance.value);

@@ -148,28 +148,26 @@ Activity.get = (id) => {
 }
 
 Activity.create = (params) => {
-	params.id = uuidv4();
+	params.id = uuidv4()
 	var promise = Promise.resolve();
 	//overwrite promise if gpx is set
 	if(params.gpx) {
 		promise = _parseGpx(params.gpx);
 	}
-
 	var gpxWaypoints;
 	return promise.then(gpx => {
-		var values = {};
+		
+		// If gpx was sent
 		if(!!gpx) {
 			gpxWaypoints = gpx.tracks[0].segments[0];
 			var gpxFields = _computeGpxFields(gpx);
 			Object.assign(values, gpxFields);
 		}
-		// overwrite values found in GPX with values provided by the user
-		Object.assign(values, params);
-		Util.renameProperties(values, {placeId: 'fk_place', activityTypeId: 'fk_activityType', userId: 'fk_user'})
+		Util.renameProperties(params, {placeId: 'fk_place', activityTypeId: 'fk_activityType', userId: 'fk_user'});
 
 		//Check if all properties are present
 		for(var key of insertFields) {
-			if(!values[key]) {
+			if(!params[key]) {
 				let err = new Error('Missing property ' + key);
 				err.code = "ER_MISSING_PROP";
 				throw err;
@@ -177,22 +175,22 @@ Activity.create = (params) => {
 		}
 
 		// Remove fields that are not allowed to be inserted
-		for(var key in values) {
+		for(var key in params) {
 			if(!allowedInsertion.includes(key)) {
-				delete values[key];
+				delete params[key];
 			}
 		}
 
 		// Check timestamp format
-		if(values.start_timestamp && !validator.isRFC3339(values.start_timestamp)) {
+		if(params.start_timestamp && !validator.isRFC3339(params.start_timestamp)) {
 			throw new Error('start_timestamp format is invalid');
 		}
-		if(values.start_timestamp && !validator.isRFC3339(values.end_timestamp)) {
+		if(params.start_timestamp && !validator.isRFC3339(params.end_timestamp)) {
 			throw new Error('end_timestamp format is invalid');
 		}
-		
+
 		return mysql.createConnection(dbConfig).then(conn => {
-			return conn.query('INSERT INTO tbl_activity SET ?', [values]);
+			return conn.query('INSERT INTO tbl_activity SET ?', [params]);
 		});
 	}).then(() => {
 		if(typeof gpxWaypoints !== 'undefined') {

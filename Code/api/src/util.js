@@ -44,6 +44,10 @@ Util.createResponse = function(response) {
     });
 }
 
+/**
+ * @param  {object} source source object we want to replace properties of
+ * @param  {object} values key values of properties we want to rename
+ */
 Util.renameProperties = function(source, values) {
     for(var key in values) {
         var attribute = source[key];
