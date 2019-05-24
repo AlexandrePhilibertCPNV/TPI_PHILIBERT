@@ -27,10 +27,14 @@ export default function() {
         menu.classList.add('menu');
         header.appendChild(menu);
     
+        let menuLogolink = document.createElement('a');
+        menuLogolink.href = '#activityCreation';
+        menu.appendChild(menuLogolink);
+
         let menuLogo = document.createElement('img');
         menuLogo.src = "img/logo.svg";
         menuLogo.classList.add('logo', "menuItem");
-        menu.appendChild(menuLogo);
+        menuLogolink.appendChild(menuLogo);
         
         _this._pages.forEach(page => {
             let menuItem = document.createElement('a');

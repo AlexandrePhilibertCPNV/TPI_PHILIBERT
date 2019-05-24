@@ -24,7 +24,7 @@ Util = {
     },
     getCookie: function(name) {
         var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-	    return v ? v[2] : null;
+	    return v ? v[2] : undefined;
     }
 
 }

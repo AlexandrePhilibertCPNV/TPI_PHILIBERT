@@ -79,6 +79,15 @@ export default function(activityId) {
     var mapElement = document.createElement('div');
     mapElement.classList.add('googleMaps');
     activityPageContainer.appendChild(mapElement);
+
+    var statPane = document.createElement('div');
+    statPane.classList.add('activityStatPane');
+    activityPageContainer.appendChild(statPane);
+
+    var statPaneTitle = document.createElement('div');
+    statPaneTitle.classList.add('statPaneTitle');
+    statPaneTitle.innerText = 'Statistiques';
+    statPane.appendChild(statPaneTitle);
     
     var paceTableTitle = document.createElement('div');
     paceTableTitle.classList.add('activityStatTableTitle');
@@ -97,7 +106,7 @@ export default function(activityId) {
     paceTable.appendChild(paceTableHeaderRow);
 
     var paceTableContentRow = document.createElement('tr');
-    paceTable.appendChild(paceTableContentRow);
+    paceTable.appendChild(paceTableContentRow);    
 
 
     let userToken = Util.getCookie('userToken');
@@ -114,6 +123,30 @@ export default function(activityId) {
                 activityTitle.innerText = activityTypes[type].name + ', le ' + activityStartDate.toLocaleDateString();
             }
         }
+
+        let totalDistance = document.createElement('div');
+        totalDistance.innerText = 'Distance totale : ' + activity.total_distance_km;
+        statPane.appendChild(totalDistance);
+
+        let startTime = document.createElement('div');
+        startTime.innerText = 'Début : le ' + new Date(activity.start_timestamp).toLocaleString();
+        statPane.appendChild(startTime);
+
+        let endTime = document.createElement('div');
+        endTime.innerText = 'Fin : le ' + new Date(activity.end_timestamp).toLocaleString();
+        statPane.appendChild(endTime);
+
+        let averageSpeed = document.createElement('div');
+        averageSpeed.innerText = 'Vitesse moyenne : ' + activity.total_average_speed + ' km/h';
+        statPane.appendChild(averageSpeed);
+
+        let posHeightDiff = document.createElement('div');
+        posHeightDiff.innerText = 'Dénivelé positif : ' + activity.total_positive_height_diff + ' m';
+        statPane.appendChild(posHeightDiff);
+
+        let negHeightDiff = document.createElement('div');
+        negHeightDiff.innerText = 'Dénivelé négatif : ' + activity.total_negative_height_diff + ' m';
+        statPane.appendChild(negHeightDiff);
     });
 
     /**
@@ -122,6 +155,7 @@ export default function(activityId) {
     function createGoogleMap() {
         let map = new google.maps.Map(mapElement, {
             center: new google.maps.LatLng(46.6, 6.8),
+            mapTypeControl: true,
             zoom: 10
         });
 
@@ -143,6 +177,7 @@ export default function(activityId) {
 					strokeOpacity: .7,
 					strokeWeight: 1.5
                 });
+                // activityPath.setOptions({strokeColor: 'blue'});
                 activityPath.setMap(map);
 
                 let trackPace = getTrackPace(points);

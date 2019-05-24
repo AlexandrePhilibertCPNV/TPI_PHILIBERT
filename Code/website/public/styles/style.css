@@ -1,6 +1,6 @@
 * {
 	box-sizing: border-box;
-	font-family: helvetica;
+	font-family: sans-serif, Helvetica;
 }
 
 body {
@@ -19,16 +19,10 @@ a {
 form {
 	display: inline-block;
 	text-align: right;
-	margin-bottom: 20px;
-	background-color: rgba(255, 255, 255, 0.9);
 }
 
 select, input {
 	width: 180px;
-}
-
-label {
-	float: left;
 }
 
 label, input, select, button, .fieldIndicator {
@@ -42,7 +36,15 @@ input[type="submit"], button {
 }
 
 input[type="file"] {
-	width: 250px;
+	width: 380px;
+	border: 2px solid grey;
+	border-style: dashed;
+	padding: 15px;
+}
+
+input[type="radio"] {
+	height: 20px;
+	vertical-align: middle;
 }
 
 table {
@@ -52,7 +54,7 @@ table {
 th {
 	background-color: #ccc;
 	position: sticky;
-	top: 0;
+	top: -10px;
 }
 
 th, td {
@@ -88,8 +90,33 @@ tr:nth-child(odd) {
 	min-height: 450px;
 }
 
+.formPart {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 20px;
+	margin-bottom: 20px;
+	max-height: 350px;
+	transition: ease all 0.5s;
+	overflow: hidden;
+	opacity: 1;
+}
+
+.formPartActions {
+	position: relative;
+	margin-bottom: 0px;
+}
+
+.formPartHidden {
+	max-height: 0px;
+	margin: 0px;
+	padding: 0px;
+	opacity: 0;
+}
+
+.formLabelLeft {
+	float: left;
+}
+
 .header {
-	margin-bottom: 50px;
 	background-color: rgba(40, 40, 40, 0.9);
 }
 
@@ -134,21 +161,18 @@ tr:nth-child(odd) {
 	max-height: 80px;
 }
 
+.logoBig {
+	max-height: 150px;
+	display: inline-block;
+}
+
 .loginFormContainer {
 	width: 100%;
 }
 
-.infoMessage {
-	height: 2em;
-	color: #e49e1c;
-	font-weight: bold;
-	/* white-space: pre-wrap; */
-	word-wrap: break-word;
-}
-
-.infoContainer, .errorContainer {
-	margin-top: 20px;
-	margin-bottom: 20px;
+.errorContainer {
+	max-width: 600px;
+	display: inline-block;
 }
 
 .errorMessage {
@@ -159,6 +183,24 @@ tr:nth-child(odd) {
 	word-wrap: break-word;
 }
 
+.loadingBarContainer {
+	width: 100%;
+	position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.loadingBar {
+	height: 10px;
+	background-color: #56adcf;
+}
+
+.messageBox {
+	display: inline-block;
+	vertical-align: top;
+	margin-top: 20px;
+}
+
 .mainContainer {
 	width: 100%;
 	display: inline-block;
@@ -166,15 +208,20 @@ tr:nth-child(odd) {
 	text-align: left;
 }
 
-.center {
+.activityCreationContainer {
 	text-align: center;
 }
 
-.formPane {
-	min-width: 150px;
-	max-width: 400px;
-	vertical-align: top;
+.notFoundContainer {
+	background-color: rgba(255, 255, 255, 0.9);
 	padding: 20px;
+}
+
+.center {
+	overflow-y: auto;
+	height: calc(100vh - 100px);
+	padding-top: 10px;
+	text-align: center;
 }
 
 .inlineBlock {
@@ -194,16 +241,37 @@ tr:nth-child(odd) {
 }
 
 .formRow {
-	width: 100%;
-	min-width: 350px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	position: relative;
+	min-width: 400px;
+	max-height: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	transition: ease all 0.5s;
+	overflow: hidden;
+}
+
+.formRowActions {
+	padding: 0px;
+	margin-bottom: 0px;
+}
+
+.formRowHidden {
+	max-height: 0px;
+	overflow: hidden;
+	padding-left: 0px;
+    padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 }
 
 .googleMaps {
-	min-width: 600px;
+	display: inline-block;
 	min-height: 400px;
+	width: 70%;
 	margin-bottom: 20px;
+	margin-right: 20px;
 }
 
 .activityTitle {
@@ -239,3 +307,27 @@ tr:nth-child(odd) {
 	overflow-x: auto;
 	border: 1px solid grey;
 }
+
+.statPaneTitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: #56adcf;
+	margin-bottom: 10px;
+}
+
+.activityStatPane {
+	display: inline-block;
+	width: 250px;
+	vertical-align: top;
+	margin-bottom: 40px;
+}
+
+.activityStatPane > div {
+	padding-bottom: 10px;
+}
+
+@media (max-width: 1010px) {
+	.googleMaps {
+		width: 100%;
+	}
+  }
