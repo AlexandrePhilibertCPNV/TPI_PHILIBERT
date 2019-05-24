@@ -1,40 +1,7 @@
+import gpsDistance from '../scripts/gpsDistance.js';
+
 export default function(activityId) {
     const googleMapSrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBEyReRC6xYEBR8neHbF91-HPrWcfwPIXU&callback=initMap';
-
-    // Taken from gps-distance node module ----------------------
-
-    var RADIUS = 6371;
-
-    var toRad = function(n) {
-    return n * Math.PI / 180;
-    };
-
-    var getDistance = function(from, to) {
-        var fromLat = from.latitude;
-        var fromLon = from.longitude;
-        var toLat = to.latitude;
-        var toLon = to.longitude;
-
-        var dLat = toRad(toLat - fromLat);
-        var dLon = toRad(toLon - fromLon);
-        var fromLat = toRad(fromLat);
-        var toLat = toRad(toLat);
-
-        var a = Math.pow(Math.sin(dLat / 2), 2) +
-                (Math.pow(Math.sin(dLon / 2), 2) * Math.cos(fromLat) * Math.cos(toLat));
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return RADIUS * c;
-    };
-
-    var measurePath = function(points) {
-    return points.reduce(function(memo, point) {
-            var distance = memo.lastPoint === null ? 0 : getDistance(memo.lastPoint, point);
-            return { lastPoint: point, distance: distance + memo.distance };
-        }, { lastPoint: null, distance: 0 }).distance;
-    };
-
-    // -----------------
 
     let pointSpacing = 2;
     /**
@@ -55,7 +22,7 @@ export default function(activityId) {
                 paceKm[currentKmIndex] = 0;
                 startPointIndex = pointIndex;
             }
-            paceKm[currentKmIndex] += getDistance(points[pointIndex], points[pointIndex+pointSpacing]);
+            paceKm[currentKmIndex] += gpsDistance(points[pointIndex], points[pointIndex+pointSpacing]);
         }
         return averageKmSpeed;
     }
