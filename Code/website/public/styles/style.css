@@ -43,6 +43,7 @@ input[type="file"] {
 }
 
 input[type="radio"] {
+	cursor: pointer;
 	height: 20px;
 	vertical-align: middle;
 }
