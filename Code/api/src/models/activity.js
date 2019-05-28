@@ -161,7 +161,7 @@ Activity.create = (params) => {
 		if(!!gpx) {
 			gpxWaypoints = gpx.tracks[0].segments[0];
 			var gpxFields = _computeGpxFields(gpx);
-			Object.assign(values, gpxFields);
+			Object.assign(params, gpxFields);
 		}
 		Util.renameProperties(params, {placeId: 'fk_place', activityTypeId: 'fk_activityType', userId: 'fk_user'});
 

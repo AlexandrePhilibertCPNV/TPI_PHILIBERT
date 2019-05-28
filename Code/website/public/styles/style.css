@@ -181,6 +181,7 @@ tr:nth-child(odd) {
 	font-weight: bold;
 	/* white-space: pre-wrap; */
 	word-wrap: break-word;
+	margin-right: 20px;
 }
 
 .loadingBarContainer {
@@ -251,6 +252,10 @@ tr:nth-child(odd) {
 	padding-bottom: 10px;
 	transition: ease all 0.5s;
 	overflow: hidden;
+}
+
+.formRowRadio {
+	text-align: left;
 }
 
 .formRowActions {
@@ -328,7 +333,16 @@ tr:nth-child(odd) {
 }
 
 @media (max-width: 1010px) {
+	input[type="radio"] {
+		width: 100px;
+	}
+	input[type="file"] {
+		width: 200px;
+	}
+}
+
+@media (max-width: 1010px) {
 	.googleMaps {
 		width: 100%;
 	}
-  }
+}

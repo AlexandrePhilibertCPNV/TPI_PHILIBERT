@@ -40,7 +40,9 @@ export default function() {
                     if(activity[key] === 1) {
                         let link = document.createElement('a');
                         link.href = '#activity/' + activity['id'];
-                        link.innerText = 'Parcours';
+                        let terrainIcon = document.createElement('img');
+                        terrainIcon.src = '/img/terrain.svg';
+                        link.appendChild(terrainIcon);
                         td.appendChild(link);
                     }
                     break;
