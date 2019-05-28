@@ -1,3 +1,5 @@
+// Boot procedure of the website
+
 import activity from "./pages/activity.js";
 import activites from "./pages/activites.js";
 import activityCreation from "./pages/activityCreation.js";
@@ -8,7 +10,6 @@ let header = new Header();
 
 document.body.appendChild(header.create());
 
-var router = new Router();
 router.setContainer(document.body);
 // register the pages
 router.register('#activity', activity);

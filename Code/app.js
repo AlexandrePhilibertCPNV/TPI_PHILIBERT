@@ -14,8 +14,7 @@ router.use('/api', api);
 router.use('/', website);
 
 // Get the number of threads available on the server
-// const cpus = os.cpus().length;
-const cpus = 1;
+const cpus = os.cpus().length;
 if (cluster.isMaster) {
 	console.log('Master ' + process.pid + ' has started');
 

@@ -22,6 +22,21 @@ function Router() {
             return;
         }
     }
+    /**
+     * Unload a page from the router cache and removes it from the DOM
+     * 
+     * return true if page was succesfully removed, return false if page was not found
+     * 
+     * @param  {string} completePath example : #activities
+     */
+    this.unloadPage = function(completePath) {
+        if(_this._loadedPages[completePath]) {
+            _this._loadedPages[completePath].parentNode.removeChild(_this._loadedPages[completePath]);
+            delete _this._loadedPages[completePath];
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Load a page from _loadedPages if in cache or load a page from _pages if not

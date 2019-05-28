@@ -308,6 +308,8 @@ export default function() {
             var response = JSON.parse(this.responseText);
             if(!response.err) {
                 errorMessage.innerText = "";
+                // Unload the page as it should reload when an activity has been added
+                router.unloadPage('#activities');
                 if(gpxFile.files[0]) {
                     window.location.hash = '#activity/' + response.data[0].id;
                     return;
