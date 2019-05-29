@@ -50,10 +50,13 @@ export default function() {
         titleRow.innerText = activity.activityTypeName;
         container.appendChild(titleRow);
 
-        container.appendChild(createCardRow('Lieu', activity.placeName));
-
         let startDate = new Date(activity.start_timestamp);
         let endDate = new Date(activity.end_timestamp);
+        container.appendChild(createCardRow('Début', startDate.toLocaleDateString()));
+
+        container.appendChild(createCardRow('Lieu', activity.placeName));
+
+
         let duration = new Date(endDate - startDate);
         let durationMinutes = '00' + duration.getMinutes();
         let durationHours = '00' + duration.getHours();
