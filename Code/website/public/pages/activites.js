@@ -56,7 +56,6 @@ export default function() {
 
         container.appendChild(createCardRow('Lieu', activity.placeName));
 
-
         let duration = new Date(endDate - startDate);
         let durationMinutes = '00' + duration.getMinutes();
         let durationHours = '00' + duration.getHours();
