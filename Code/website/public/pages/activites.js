@@ -38,6 +38,7 @@ export default function() {
         if(typeof link !== 'undefined') {
             container = document.createElement('a');
             container.href = link;
+            container.draggable = false;
             container.classList.add('activityCardClickable');
         } else {
             container = document.createElement('div');;
