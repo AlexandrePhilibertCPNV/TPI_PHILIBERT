@@ -1,6 +1,6 @@
 * {
 	box-sizing: border-box;
-	font-family: sans-serif, Helvetica;
+	font-family: "Helvetica Neue",Helvetica,Arial,"Trebuchet MS",sans-serif;
 }
 
 body {
@@ -332,6 +332,67 @@ tr:nth-child(odd) {
 
 .activityStatPane > div {
 	padding-bottom: 10px;
+}
+
+.activitiesContainer {
+	background-color: rgba(238, 238, 238, 0.9);
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.activityCard {
+	display: inline-block;
+	margin: 10px;
+	padding: 10px;
+	background-color: rgba(255, 255, 255, 0.9);
+	text-align: left;
+	width: 280px;
+	height: 200px;
+	vertical-align: top;
+}
+
+.activityCardClickable:hover {
+	background-color: rgba(238, 238, 238, 0.9);
+	transition: ease background-color 0.2s; 
+}
+
+.cardRowHeader {
+	padding-bottom: 10px;
+	text-align: center;
+	font-variant: small-caps;
+	font-size: 1.2em;
+	color: #56adcf;
+	border-bottom: 1px solid #56adcf;
+}
+
+.cardRow {
+	display: block;
+}
+
+.cardRowTitle {
+	width: 50%;
+	text-align: right;
+	border-right: 1px solid rgb(165, 165, 165);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 15px;
+}
+
+.cardRowTitle, .cardRowValue {
+	display: inline-block;
+}
+
+.cardRowValue {
+	padding-left: 15px;
+}
+
+.cardRowCentered {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	margin-top: 15px;
+	text-align: center;
+	float: initial;
 }
 
 @media (max-width: 1010px) {

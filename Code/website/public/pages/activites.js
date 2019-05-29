@@ -6,61 +6,76 @@ export default function() {
     container.classList.add('mainContainer');
     center.appendChild(container);
 
-    // headers of HTML table activies
-    const headers = ['Lieu', 'Type', 'Début', 'Fin', 'Distance', 'Vitesse', 'Parcours'];
-    // fields we are displaying in HTML table, order matters
-    const attributes = ['placeName', 'activityTypeName', 'start_timestamp', 'end_timestamp', 'total_distance_km', 'total_average_speed', 'has_gpx'];
+    function createCardRow(title, value) {
+        let cardRow = document.createElement('div');
+        cardRow.classList.add('cardRow');
 
-    function createHead(headers) {
-        let tr = document.createElement('tr');
-        headers.forEach(element => {
-            let th = document.createElement('th');
-            th.innerText = element;
-            tr.appendChild(th);
-        });
-        return tr;
-    }
-
-    function createRow(activity) {
-        let tr = document.createElement('tr');
-        for(let key of attributes) {
-            let td = document.createElement('td');
-            switch(key) {
-                case 'total_distance_km':
-                    td.innerText = activity[key] + ' km';
-                    break;
-                case 'total_average_speed':
-                    td.innerText = activity[key] + ' km/h';
-                    break;
-                case 'start_timestamp':
-                case 'end_timestamp':
-                    td.innerText = new Date(activity[key]).toLocaleString();
-                    break;
-                case 'has_gpx':
-                    if(activity[key] === 1) {
-                        let link = document.createElement('a');
-                        link.href = '#activity/' + activity['id'];
-                        let terrainIcon = document.createElement('img');
-                        terrainIcon.src = '/img/terrain.svg';
-                        link.appendChild(terrainIcon);
-                        td.appendChild(link);
-                    }
-                    break;
-                default:
-                td.innerText = activity[key];
-            }
-            tr.appendChild(td);
+        // if not element, treat it as text
+        if(typeof title !== 'object') {
+            let cardRowTitle = document.createElement('div');
+            cardRowTitle.classList.add('cardRowTitle');
+            cardRowTitle.innerText = title;
+            cardRow.appendChild(cardRowTitle);
         }
-        return tr;
+        
+        let cardRowValue = document.createElement('div');
+        cardRowValue.classList.add('cardRowValue');
+        cardRow.appendChild(cardRowValue);
+
+        if(typeof value !== 'undefined') {
+            cardRowValue.innerText = value;
+        }
+        if(typeof title === 'object') {
+            cardRowValue.classList.add('cardRowCentered');
+            cardRowValue.appendChild(title);
+        }
+
+        return cardRow;
     }
 
-    var activitiesTable = document.createElement('table');
-    activitiesTable.classList.add('activitesTable');
-    
-    var theads = createHead(headers);
-    activitiesTable.appendChild(theads);
+    function createCard(activity, link) {
+        let container;
+        if(typeof link !== 'undefined') {
+            container = document.createElement('a');
+            container.href = link;
+            container.classList.add('activityCardClickable');
+        } else {
+            container = document.createElement('div');;
+        }
+        container.classList.add('activityCard');
 
-    container.appendChild(activitiesTable);
+        var titleRow = document.createElement('div');
+        titleRow.classList.add('cardRow');
+        titleRow.classList.add('cardRowHeader');
+        titleRow.innerText = activity.activityTypeName;
+        container.appendChild(titleRow);
+
+        container.appendChild(createCardRow('Lieu', activity.placeName));
+
+        let startDate = new Date(activity.start_timestamp);
+        let endDate = new Date(activity.end_timestamp);
+        let duration = new Date(endDate - startDate);
+        let durationMinutes = '00' + duration.getMinutes();
+        let durationHours = '00' + duration.getHours();
+        let durationString = durationHours.substring(durationHours.length - 2)+ 'h' + durationMinutes.substring(durationMinutes.length -2) + 'm'
+        container.appendChild(createCardRow('Durée', durationString));
+        container.appendChild(createCardRow('Distance', activity.total_distance_km + ' km'));
+        container.appendChild(createCardRow('Vitesse', activity.total_average_speed + ' km/h'));
+
+        if(activity.has_gpx === 1) {
+            let link = document.createElement('a');
+            link.href = '#activity/' + activity['id'];
+            let terrainIcon = document.createElement('img');
+            terrainIcon.src = '/img/terrain.svg';
+            link.appendChild(terrainIcon);
+            container.appendChild(createCardRow(link))
+        }
+        return container;
+    }
+
+    var activitiesContainer = document.createElement('div');
+    activitiesContainer.classList.add('activitiesContainer');
+    container.appendChild(activitiesContainer);
 
     let userId = Util.getCookie("userId");
     let userToken = Util.getCookie('userToken');
@@ -91,9 +106,14 @@ export default function() {
 				if(places[place].id === activity.fk_place) {
 					activity.placeName = places[place].name;
 				}
-			}
-			let row = createRow(activity);
-			activitiesTable.appendChild(row);
+            }
+            let card;
+            if(activity.has_gpx === 1) {
+                card = createCard(activity, '#activity/' + activity['id']);
+            } else {
+                card = createCard(activity);
+            }
+            activitiesContainer.appendChild(card);
 		});
 	});
 
