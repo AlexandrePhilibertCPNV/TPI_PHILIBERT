@@ -380,10 +380,15 @@ tr:nth-child(odd) {
 
 .cardRowTitle, .cardRowValue {
 	display: inline-block;
+	vertical-align: middle;
 }
 
 .cardRowValue {
 	padding-left: 15px;
+	max-width: 50%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .cardRowCentered {
@@ -393,6 +398,7 @@ tr:nth-child(odd) {
 	margin-top: 15px;
 	text-align: center;
 	float: initial;
+	max-width: initial;
 }
 
 @media (max-width: 1010px) {
