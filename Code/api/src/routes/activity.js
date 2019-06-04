@@ -8,7 +8,9 @@ const Util = require('../util');
 
 // Merge the params if we are comming from another router
 let router = new Router({mergeParams: true});
-
+/**
+ * Check if activity belongs to user querying it
+ */
 function isActivityOwner(req, res, next) {
 	if (typeof req.params.activityId === 'undefined') {
 		next(new Error('Missing activityId'));
@@ -28,17 +30,10 @@ function isActivityOwner(req, res, next) {
 	});
 }
 
-// Only admin could do this query
-/* router.get('/', (req, res, next) => {
-	Activity.get().then(result => {
-		res.statusCode = 200;
-		res.setHeader('Content-Type', 'application/json');
-		res.end(JSON.stringify(result));
-	}).catch(err => {
-		next(err);
-	});
-}); */
-
+/**
+ * Get an activity
+ * 
+ */
 router.get('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
 	Activity.get(req.params.activityId).then(result => {
 		res.statusCode = 200;
@@ -49,6 +44,9 @@ router.get('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next)
 	});
 });
 
+/**
+ * Update activity
+ */
 router.put('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
 	if (!req.body) {
         next(new Error('Missing request body'));
@@ -60,6 +58,9 @@ router.put('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next)
 	});
 });
 
+/**
+ *	Get all the position from a given activityId
+ */
 router.get('/:activityId/position', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
 	Activity.getPosition({activityId: req.params.activityId}).then(result => {
 		res.statusCode = 200;
@@ -68,6 +69,9 @@ router.get('/:activityId/position', [Auth.bearerLogin, isActivityOwner], (req, r
 	});
 });
 
+/**
+ * Get a single position form a given activityId
+ */
 router.get('/:activityId/position/:positionId', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
 	Activity.getPosition(req.params.positionId).then(result => {
 		res.statusCode = 200;

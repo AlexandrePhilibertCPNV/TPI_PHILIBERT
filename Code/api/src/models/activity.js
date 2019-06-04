@@ -194,8 +194,10 @@ Activity.create = (params) => {
 		});
 	}).then(() => {
 		if(typeof gpxWaypoints !== 'undefined') {
-			Activity.addPositions(params.id, gpxWaypoints);
+			return Activity.addPositions(params.id, gpxWaypoints);
 		}
+		return params.id;
+	}).then(() => {
 		return params.id;
 	}).catch(err => {
 		console.error(err);
@@ -267,21 +269,22 @@ Activity.addPositon = (activityId, gpxWaypoint) => {
 Activity.addPositions = (activityId, gpxWaypoints) => {
 	return mysql.createConnection(dbConfig).then(conn => {
 		
-		var queries = [];
+		let sql = 'INSERT INTO tbl_position (id, fk_activity, latitude, longitude, timestamp, altitude) VALUES ?'
+		let values = [];
 		for(let i = 0; i < gpxWaypoints.length; i++) {
-			let values = {
-				fk_activity: activityId,
-				latitude: gpxWaypoints[i].lat,
-				longitude: gpxWaypoints[i].lon,
-				timestamp: gpxWaypoints[i].time,
-				altitude: gpxWaypoints[i].elevation
-			};
-			queries[i] = conn.query('INSERT INTO tbl_position SET id=UUID(), ?', [values]);
+			values.push([
+				uuidv4(),
+				activityId,
+				gpxWaypoints[i].lat,
+				gpxWaypoints[i].lon,
+				gpxWaypoints[i].time,
+				gpxWaypoints[i].elevation
+			]);
 		}
-		
-		var results = Promise.all(queries);
+
+		let result = conn.query(sql, [values]);
 		conn.end();
-		return results;
+		return result;
 	});
 };
 
