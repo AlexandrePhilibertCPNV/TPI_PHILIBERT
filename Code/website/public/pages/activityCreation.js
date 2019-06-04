@@ -123,6 +123,11 @@ export default function() {
         remainingFormPart.classList.remove('formPartHidden');
         gpxRow.classList.add('formRowHidden');
         remainingFormPart.style.display = 'block';
+        activityCreation.reset();
+        startDate.value = new Date().toISOString().split('T')[0];
+        startTime.value = '12:00';
+        endDate.value = new Date().toISOString().split('T')[0];
+        endTime.value = '12:00';
         gpxFile.required = false;
         startDate.required = true;
         startTime.required = true; 
@@ -180,11 +185,10 @@ export default function() {
     
     var startDate = document.createElement('input');
     startDate.type = 'date';
-    startDate.value = new Date().toISOString().split('T')[0];
+
 
     var startTime = document.createElement('input');
     startTime.type = 'time';
-    startTime.value = '12:00';
     remainingFormPart.appendChild(createRow([startLabel, startDate, startTime]));
 
     var endLabel = document.createElement('label');
@@ -194,11 +198,10 @@ export default function() {
 
     var endDate = document.createElement('input');
     endDate.type = 'date';
-    endDate.value = new Date().toISOString().split('T')[0];
 
     var endTime = document.createElement('input');
     endTime.type = 'time';
-    endTime.value = '12:00';
+   
     remainingFormPart.appendChild(createRow([endLabel, endDate, endTime]));
 
     var distanceLabel = document.createElement('label');

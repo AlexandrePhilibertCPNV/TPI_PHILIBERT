@@ -92,7 +92,7 @@ export default function(activityId) {
         }
 
         let totalDistance = document.createElement('div');
-        totalDistance.innerText = 'Distance totale : ' + activity.total_distance_km;
+        totalDistance.innerText = 'Distance totale : ' + activity.total_distance_km + ' km';
         statPane.appendChild(totalDistance);
 
         let startTime = document.createElement('div');
