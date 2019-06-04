@@ -3,7 +3,9 @@ import gpsDistance from '../scripts/gpsDistance.js';
 export default function(activityId) {
     const googleMapSrc = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBEyReRC6xYEBR8neHbF91-HPrWcfwPIXU&callback=initMap';
 
+    // allows to set the interval between which points are used to compute distance
     let pointSpacing = 2;
+
     /**
      * Compute the average pace by kilometers for a set of GPS coordinates
      * 
@@ -159,14 +161,14 @@ export default function(activityId) {
             });
     }
 
-    let goolgeMapsLoaded = false;
+    let googleMapsLoaded = false;
     for(let script of document.scripts) {
         if(script.src === googleMapSrc) {
-            goolgeMapsLoaded = true;
+            googleMapsLoaded = true;
         }
     }
     // Do not load the script if it was already loaded
-    if(goolgeMapsLoaded) {
+    if(googleMapsLoaded) {
         createGoogleMap();
     } else {
         var mapScript = document.createElement('script');

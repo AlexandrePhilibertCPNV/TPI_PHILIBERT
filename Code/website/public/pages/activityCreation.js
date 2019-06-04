@@ -123,7 +123,6 @@ export default function() {
         remainingFormPart.classList.remove('formPartHidden');
         gpxRow.classList.add('formRowHidden');
         remainingFormPart.style.display = 'block';
-        activityCreation.reset();
         startDate.value = new Date().toISOString().split('T')[0];
         startTime.value = '12:00';
         endDate.value = new Date().toISOString().split('T')[0];
