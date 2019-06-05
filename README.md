@@ -9,6 +9,8 @@ A simple RESTful API written in NodeJS that allows the creation of account and h
 
 # Installation guide
 
+Node modules are packaged inside the application
+
 ## prerequisites
 
 - Have mysql installed
@@ -26,7 +28,9 @@ A simple RESTful API written in NodeJS that allows the creation of account and h
     -    "database": "runscape",
     -    "timezone": "UCT+0"
     - };
-- Run the application with node : node app.js (\Code)
+- Run the application with node : node app.js (\Code) or nodemon : nodemon app.js
+
+/!\ You might need to remove the STRICT_TRANST_TABLE directive from the sql_mode
 
 You can now create new users using the /api/user endpoint
 
