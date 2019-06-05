@@ -18,6 +18,7 @@ router.use(formData);
 // handle errors
 router.use(require('./middlewares/error'));
 
+//Route all endpoints
 router.use('/token', require('./routes/token'));
 router.use('/place', require('./routes/place'));
 router.use('/user', require('./routes/user'));

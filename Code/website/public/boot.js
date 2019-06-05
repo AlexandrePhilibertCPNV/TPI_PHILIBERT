@@ -18,9 +18,9 @@ router.register('#notfound', notFound);
 router.register('#activityCreation', activityCreation);
 
 let userToken = Util.getCookie('userToken');
-// if(!userToken) {
-//     window.location.href = '#notfound/loggedOut';
-// }
+if(!userToken) {
+    window.location.href = '#notfound/loggedOut';
+}
 
 // load page from url or load default one
 if(window.location.hash) {

@@ -8,6 +8,9 @@ const Country = require('../models/country');
 
 var router = new Router();
 
+/**
+ * Get all countries
+ */
 router.get('/', (req, res, next) => {
     Country.get().then(result => {
         res.setHeader('Content-Type', 'application/json');
@@ -15,6 +18,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/**
+ * Get places of a country
+ * 
+ * (Places are locations ex: Paris, New-York, etc..)
+ * 
+ * @param  {string} countryId id of the country in which we want to get its places
+ */
 router.get('/:countryId/place', (req, res, next) => {
     Country.getPlace(req.params.countryId).then(result => {
         res.setHeader('Content-Type', 'application/json');

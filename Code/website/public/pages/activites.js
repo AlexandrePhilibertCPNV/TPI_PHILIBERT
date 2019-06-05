@@ -83,9 +83,9 @@ export default function() {
     let userId = Util.getCookie("userId");
     let userToken = Util.getCookie('userToken');
 
-    // if(!userToken) {
-    //     window.location.hash = '#notfound';
-    // }
+    if(!userToken) {
+        window.location.hash = '#notfound';
+    }
 	
 	var types;
 	var places;

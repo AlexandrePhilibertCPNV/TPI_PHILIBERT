@@ -28,7 +28,18 @@ router.get('/:userId', [Auth.bearerLogin], (req, res, next) => {
     });
 });
 
-// Create user
+/**
+ * Create new user
+ * 
+ * Body : {
+ * 	@param {string} email, valid email (see https://www.npmjs.com/package/validator)
+ *  @param {string} password, min size 8 characters
+ * 	@param {string} firstname, 
+ * 	@param {string} lastname,
+ * 	@param {string} phonenumber
+ * }
+ * 
+ */
 router.post('/', (req, res, next) => {
     if (!req.body) {
         next(new Error('Missing request body'));
@@ -45,6 +56,18 @@ router.post('/', (req, res, next) => {
     });
 });
 
+/**
+ * Update a user
+ * 
+ * Body : { following fields can be updated
+ *  @param {string} password,
+ * 	@param {string} firstname, 
+ * 	@param {string} lastname,
+ * 	@param {string} phonenumber
+ * }
+ * 
+ * @param  {string} userId id of the user we want to update
+ */
 router.put('/:userId', [Auth.bearerLogin, Auth.isOwner], (req, res, next) => {
 	if(!req.body) {
 		next(new Error('Missing request body'));
@@ -57,6 +80,12 @@ router.put('/:userId', [Auth.bearerLogin, Auth.isOwner], (req, res, next) => {
 	});
 });
 
+/**
+ * Delete a user (will stay in database)
+ * User can only delete his own account
+ * 
+ * @param  {string} userId id of the user we want to update
+ */
 router.delete('/:userId', [Auth.bearerLogin, Auth.isOwner], (req, res, next) => {
 	User.delete(req.user.id).then(succeeded => {
 		res.setHeader('Content-Type', 'application/json');
@@ -68,7 +97,43 @@ router.delete('/:userId', [Auth.bearerLogin, Auth.isOwner], (req, res, next) => 
 	});
 });
 
-// Create activity
+
+/**
+ * Create a new activity
+ * 
+ * Body can either be one of the following : 
+ * 
+ * Body : { Content-Type application/json
+ *  @param {string} activityTypeId,
+ * 	@param {string} placeId, 
+ * 	@param {string} start_timestamp,
+ * 	@param {string} end_timestamp,
+ * 	@param {string} total_average_speed,
+ * 	@param {string} total_distance_km,
+ * 	@param {string} gpx,	/!\ large file can lead to increased sending time of request
+ * }
+ * 
+ * 
+ * In the example below the values from start_timestamp, end_timestamp,
+ * total_average_speed, total_distance_km are overwritten by values from the GPX file
+ * 
+ * Body : { Content-Type multipart/form-data max size 20Mb
+ *  @param {string} activityTypeId,
+ * 	@param {string} placeId,
+ * 	@param {string} start_timestamp,optional
+ * 	@param {string} end_timestamp,optional
+ * 	@param {string} total_average_speed,optional
+ * 	@param {string} total_distance_km,optional
+ * 	@param {string} gpx, 
+ * }
+ * 
+ * Headers : Authorization -> Bearer token of user
+ * 
+ * @param  {string} userId id of the user that wants to insert a new activity
+ * 
+ * Response of this query is returned when all positions where inserted in database,
+ * this could take some time.
+ */
 router.post('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	if(!req.body || req.body.length === 0) {
 		var error = new Error('Missing request body');
@@ -92,6 +157,13 @@ router.post('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	});
 });
 
+/**
+ * Get activites from a user
+ * 
+ * Headers : Authorization -> Bearer token of user
+ * 
+ * @param  {string} userId id of the user that wants to retreive its activities
+ */
 router.get('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	Activity.get().then(result => {
 		res.setHeader('Content-Type', 'application/json');
@@ -101,6 +173,14 @@ router.get('/:userId/activity', [Auth.bearerLogin], (req, res, next) => {
 	});
 });
 
+/**
+ * Get single activity from a user
+ * 
+ * Headers : Authorization -> Bearer token of user
+ * 
+ * @param  {string} userId id of the user that wants to retreive his activity
+*  @param  {string} activityId id of the activity the user wants to retreive
+ */
 router.get('/:userId/activity/:activityId', [Auth.bearerLogin], (req, res, next) => {
 	Activity.get(req.params.activityId).then(result => {
 		res.setHeader('Content-Type', 'application/json');

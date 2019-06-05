@@ -26,7 +26,7 @@ Util.hash = function(string, salt) {
     }
 }
 
-/*
+/**
  * Format the parameters to conform to API standard response
  * 
  * @param  {object} err   error returned to the user

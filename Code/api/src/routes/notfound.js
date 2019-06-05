@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Return an error if the request doesn't exist
+ */
 module.exports = (_req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({

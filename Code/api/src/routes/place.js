@@ -8,6 +8,9 @@ const Util = require('../util');
 // Merge the params if we are comming from another router
 let router = new Router({mergeParams: true});
 
+/**
+ * Get all the places of every country
+ */
 router.get('/', (req, res, next) => {
 	Place.get().then(result => {
 		res.statusCode = 200;
