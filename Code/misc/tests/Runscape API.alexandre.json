@@ -1,0 +1,783 @@
+{
+	"id": "538f9506-5bd3-4c2c-9a2e-5697d304d2ed",
+	"name": "Runscape API",
+	"allTests": [],
+	"timestamp": "2019-06-04T08:07:29.773Z",
+	"collection_id": "36422e86-2f97-415a-86b8-151ef401f917",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "e065be11-b212-441f-bad5-018c73a3f695",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "36422e86-2f97-415a-86b8-151ef401f917",
+		"name": "Runscape API",
+		"description": "",
+		"auth": null,
+		"events": [
+			{
+				"listen": "prerequest",
+				"script": {
+					"id": "0cfe42c1-5f05-4556-b51f-a2538bf701d8",
+					"type": "text/javascript",
+					"exec": [
+						""
+					]
+				}
+			},
+			{
+				"listen": "test",
+				"script": {
+					"id": "a8ca5bc1-bb81-4a0c-ba0e-7ae5f5613ae1",
+					"type": "text/javascript",
+					"exec": [
+						""
+					]
+				}
+			}
+		],
+		"variables": [],
+		"order": [],
+		"folders_order": [
+			"bfa17f02-e030-4c3c-b4a1-9968fba2521f",
+			"3272dcfc-3c56-4bb1-86a3-431aeab87e46",
+			"052fbe10-77f0-40b8-8c3c-9462a9692d2a"
+		],
+		"owner": "6602846",
+		"favorite": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [
+		{
+			"key": "userEmail",
+			"value": "lpdef53n4w@postman.test",
+			"enabled": true
+		},
+		{
+			"key": "userFirstname",
+			"value": "John",
+			"enabled": true
+		},
+		{
+			"key": "userLastname",
+			"value": "Doe",
+			"enabled": true
+		},
+		{
+			"key": "userPassword",
+			"value": "n0v0wf5ss3",
+			"enabled": true
+		},
+		{
+			"key": "userPhonenumber",
+			"value": 40077208,
+			"enabled": true
+		},
+		{
+			"key": "userId",
+			"value": "c45864c5-3523-4eb5-9c70-198d9cbba346",
+			"enabled": true
+		},
+		{
+			"key": "userToken",
+			"value": "9d1692dac40c264b354c0d053d053a3a",
+			"enabled": true
+		},
+		{
+			"key": "adminToken",
+			"value": "d855046ee00356183a0c2e7c730809bb",
+			"enabled": true
+		}
+	],
+	"results": [
+		{
+			"name": "Get activity types",
+			"id": "31eaec9e-6b14-4b16-a58e-12b6c623b1d4",
+			"url": "localhost/api/activity-type",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"106"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "106",
+			"totalRequestTime": "106",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create activity type",
+			"id": "8cae7cbc-9886-4a01-884f-98eb08272260",
+			"url": "localhost/api/activity-type",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden",
+				"detail": {
+					"name": "Forbidden",
+					"detail": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"26"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "26",
+			"totalRequestTime": "26",
+			"iterationResults": {}
+		},
+		{
+			"name": "GET all Countries",
+			"id": "84b2b659-5c87-4b07-ab69-67fc8d3a01ee",
+			"url": "localhost/api/country",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Body contains switzerland country ID": true
+			},
+			"testPassFailCounts": {
+				"Body contains switzerland country ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"6"
+			],
+			"allTests": [
+				{
+					"Body contains switzerland country ID": true
+				}
+			],
+			"time": "6",
+			"totalRequestTime": "6",
+			"iterationResults": {}
+		},
+		{
+			"name": "GET places from Country",
+			"id": "fce13200-2dbe-4c6e-9ee8-ee6203b93290",
+			"url": "localhost/api/country/f88d8c32-716d-11e9-8599-9215f1299811/place",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Body contains Morges": true,
+				"Body contains Dielsdorf": true
+			},
+			"testPassFailCounts": {
+				"Body contains Morges": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains Dielsdorf": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"20"
+			],
+			"allTests": [
+				{
+					"Body contains Morges": true,
+					"Body contains Dielsdorf": true
+				}
+			],
+			"time": "20",
+			"totalRequestTime": "20",
+			"iterationResults": {}
+		},
+		{
+			"name": "GET inexisting country places",
+			"id": "df9badd9-fb43-4787-af57-ca85c4b8f3b0",
+			"url": "localhost/api/country/f87d1c32-926d-11e9-5673-9614f1299811/place",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Response is empty": true
+			},
+			"testPassFailCounts": {
+				"Response is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"6"
+			],
+			"allTests": [
+				{
+					"Response is empty": true
+				}
+			],
+			"time": "6",
+			"totalRequestTime": "6",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create user",
+			"id": "921edc5b-a9e3-4441-a41c-664e0380cde6",
+			"url": "localhost/api/user",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 201,
+				"name": "Created",
+				"detail": {
+					"name": "Created",
+					"detail": "The request has been fulfilled and resulted in a new resource being created."
+				}
+			},
+			"tests": {
+				"Status code is 201": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"34"
+			],
+			"allTests": [
+				{
+					"Status code is 201": true
+				}
+			],
+			"time": "34",
+			"totalRequestTime": "34",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtain user token",
+			"id": "498867d2-a216-4f26-8173-7ea91c2d11b2",
+			"url": "localhost/api/token",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"20"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			],
+			"time": "20",
+			"totalRequestTime": "20",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get created user",
+			"id": "8469636c-ce83-4af1-8556-f113dd24d037",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Response contains correct id": true,
+				"Response contains correct firstname": true,
+				"Response contains correct lastname": true,
+				"Response does not contain password": true,
+				"Response does not contain password_salt": true,
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Response contains correct id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains correct firstname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains correct lastname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password_salt": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Response contains correct id": true,
+					"Response contains correct firstname": true,
+					"Response contains correct lastname": true,
+					"Response does not contain password": true,
+					"Response does not contain password_salt": true,
+					"Status code is 200": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "Update created user",
+			"id": "5d656453-73ed-43fc-a4e2-4f88c27a880c",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"Response contains updated firstname": true,
+				"Response contains updated lastname": true,
+				"Response contains updated phonenumber": true,
+				"Response does not contain password": true,
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Response contains updated firstname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains updated lastname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains updated phonenumber": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"14"
+			],
+			"allTests": [
+				{
+					"Response contains updated firstname": true,
+					"Response contains updated lastname": true,
+					"Response contains updated phonenumber": true,
+					"Response does not contain password": true,
+					"Status code is 200": true
+				}
+			],
+			"time": "14",
+			"totalRequestTime": "14",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get all user activites",
+			"id": "1e62c937-72b5-4fe6-9a9c-5f6848c93a59",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create activity",
+			"id": "9b0dcb67-5ccf-432f-aa2d-f74b1fda9de0",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"10"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "10",
+			"totalRequestTime": "10",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create activity formdata",
+			"id": "1dca44f4-cb0d-4475-9f9f-0264bdee3393",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				"805"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "805",
+			"totalRequestTime": "805",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 17,
+	"totalFail": 0,
+	"totalTime": 1063,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "Get activity types",
+			"id": "31eaec9e-6b14-4b16-a58e-12b6c623b1d4",
+			"url": "localhost/api/activity-type",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Create activity type",
+			"id": "8cae7cbc-9886-4a01-884f-98eb08272260",
+			"url": "localhost/api/activity-type",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden",
+				"detail": {
+					"name": "Forbidden",
+					"detail": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "GET all Countries",
+			"id": "84b2b659-5c87-4b07-ab69-67fc8d3a01ee",
+			"url": "localhost/api/country",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Body contains switzerland country ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "GET places from Country",
+			"id": "fce13200-2dbe-4c6e-9ee8-ee6203b93290",
+			"url": "localhost/api/country/f88d8c32-716d-11e9-8599-9215f1299811/place",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Body contains Morges": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Body contains Dielsdorf": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "GET inexisting country places",
+			"id": "df9badd9-fb43-4787-af57-ca85c4b8f3b0",
+			"url": "localhost/api/country/f87d1c32-926d-11e9-5673-9614f1299811/place",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Response is empty": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Create user",
+			"id": "921edc5b-a9e3-4441-a41c-664e0380cde6",
+			"url": "localhost/api/user",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 201,
+				"name": "Created",
+				"detail": {
+					"name": "Created",
+					"detail": "The request has been fulfilled and resulted in a new resource being created."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Obtain user token",
+			"id": "498867d2-a216-4f26-8173-7ea91c2d11b2",
+			"url": "localhost/api/token",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get created user",
+			"id": "8469636c-ce83-4af1-8556-f113dd24d037",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Response contains correct id": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains correct firstname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains correct lastname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password_salt": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Update created user",
+			"id": "5d656453-73ed-43fc-a4e2-4f88c27a880c",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Response contains updated firstname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains updated lastname": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains updated phonenumber": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response does not contain password": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get all user activites",
+			"id": "1e62c937-72b5-4fe6-9a9c-5f6848c93a59",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Create activity",
+			"id": "9b0dcb67-5ccf-432f-aa2d-f74b1fda9de0",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Create activity formdata",
+			"id": "1dca44f4-cb0d-4475-9f9f-0264bdee3393",
+			"url": "localhost/api/user/930e4204-5023-4e13-9583-b38174aeb221/activity",
+			"time": "2019-06-04T08:07:29.773Z",
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request",
+				"detail": {
+					"name": "Bad Request",
+					"detail": "The request cannot be fulfilled due to bad syntax."
+				}
+			},
+			"testPassFailCounts": {}
+		}
+	],
+	"synced": false
+}
