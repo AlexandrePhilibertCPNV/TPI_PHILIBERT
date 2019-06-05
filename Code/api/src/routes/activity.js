@@ -12,6 +12,7 @@ let router = new Router({mergeParams: true});
  * Check if activity belongs to user querying it
  */
 function isActivityOwner(req, res, next) {
+	return next();
 	if (typeof req.params.activityId === 'undefined') {
 		next(new Error('Missing activityId'));
 	}
@@ -33,6 +34,7 @@ function isActivityOwner(req, res, next) {
 /**
  * Get an activity
  * 
+ * @param  {string} activityId id of the activity we want to retreive
  */
 router.get('/:activityId', [Auth.bearerLogin, isActivityOwner], (req, res, next) => {
 	Activity.get(req.params.activityId).then(result => {

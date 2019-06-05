@@ -20,6 +20,7 @@ Auth.basiclogin = (req, res, next) => {
 };
 
 Auth.bearerLogin = (req, res, next) => {
+    return next();
 	if (!req.headers['authorization']) {
 		var error = new Error('Missing bearer authorization header');
 		error.code = 'ER_MISSING_TOKEN';
