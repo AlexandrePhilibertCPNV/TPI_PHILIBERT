@@ -59,7 +59,7 @@ export default function() {
 
         let duration = new Date(endDate - startDate);
         let durationMinutes = '00' + duration.getMinutes();
-        let durationHours = '00' + duration.getHours();
+        let durationHours = '00' + (duration.getHours() - Math.abs(duration.getTimezoneOffset() / 60));
         let durationString = durationHours.substring(durationHours.length - 2)+ 'h' + durationMinutes.substring(durationMinutes.length -2) + 'm'
         container.appendChild(createCardRow('Durée', durationString));
         container.appendChild(createCardRow('Distance', activity.total_distance_km + ' km'));
